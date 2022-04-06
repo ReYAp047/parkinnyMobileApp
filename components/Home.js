@@ -16,12 +16,14 @@ export default class Home extends React.Component{
   
                   <TouchableHighlight
                      style={styles.submitNormal}
-                      underlayColor='#fff'>
+                      underlayColor='#fff'
+                      onPress={() => this.props.navigation.navigate('LogIn')}>
                     <Text style={styles.submitTextBlack}>LOG IN</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                      style={styles.submitOutline}
-                      underlayColor='#fff'>
+                      underlayColor='#fff'
+                      onPress={() => alert('Pressed!')}>
                     <Text style={styles.submitTextWhite}>REGISTER</Text>
                   </TouchableHighlight>
   
