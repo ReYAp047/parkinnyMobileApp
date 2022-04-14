@@ -4,11 +4,11 @@ import React, {useEffect } from 'react';
 
 import * as AuthSession from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
-import { Button,View,Alert, Platform, StyleSheet, Image } from 'react-native';
-
+import { Button,View,Alert, Platform, StyleSheet, Image, Text } from 'react-native';
+import Map from './Map';
 // you need to swap out these details with your auth0 credientals
-const auth0ClientId = "lkXp0Z1G9G1F57G6XscStcOyEG1L2qld";
-const authorizationEndpoint = "https://dev-tic1h7u8.us.auth0.com/authorize";
+const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
+const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/authorize";
 
 
 const useProxy = Platform.select({ web: false, default: true });
@@ -19,7 +19,6 @@ console.log(redirectUri)  // <-- you will need to add this to your auth0 callbac
 
 
 export default function LogIn () { 
-
     const [request, result, promptAsync] = AuthSession.useAuthRequest(
       {
         redirectUri,
@@ -35,10 +34,55 @@ export default function LogIn () {
       },
       { authorizationEndpoint }
     );
-  useEffect(() => {
-    promptAsync({ useProxy });
-  
-})
-      return null;
+    
+      useEffect(() => {
+        promptAsync({ useProxy });
+      
+    })
+      
+      if(result){
+        global.foo = auth0ClientId;
+
+        return (
+          <Map/>
+        );
+      }
+      return (
+        <View>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+          <Text>
+            You have to log in
+          </Text>
+
+
+        </View>
+      
+      );
   
 }
