@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity, SafeAreaView, Button, Image,  StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, SafeAreaView, Button, Dimensions , Image,  StyleSheet, Text, View } from 'react-native';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 
+import MapView from 'react-native-maps';
 import * as React from 'react';
 
 export default class Map extends React.Component {
@@ -10,12 +11,15 @@ render(){
         <SafeAreaView style={styles.container}>
         <View style={styles.container}>
           <Text style={styles.titleStyle}>
-            Example of React Native Floating Action Button
+            Parking Ariana
           </Text>
-          <Text style={styles.textStyle}>
-            Click on Action Button to see Alert
-          </Text>
+
           
+          <View style={styles.container}>
+          <MapView style={styles.map} />
+          </View>
+
+
           <TouchableOpacity
             activeOpacity={0.7}
             
@@ -111,13 +115,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        padding: 10,
+        padding: 5,
+      },
+      map: {
+          flex: 4,
+        //width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        marginBottom: 60,
       },
       titleStyle: {
         fontSize: 28,
         fontWeight: 'bold',
         textAlign: 'center',
         padding: 10,
+        marginTop: 20
       },
       textStyle: {
         fontSize: 16,
