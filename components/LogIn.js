@@ -5,7 +5,16 @@ import React, {useEffect } from 'react';
 import * as AuthSession from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
 import { Button,View,Alert, Platform, StyleSheet, Image, Text } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import Map from './Map';
+import Chat from './Chat';
+import History from './History';
+import LogOut from './LogOut';
+import Profile from './Profile';
+import Reserve from './Reserve';
 // you need to swap out these details with your auth0 credientals
 const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
 const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/authorize";
@@ -42,11 +51,24 @@ export default function LogIn () {
       
       if(result){
         global.foo = auth0ClientId;
+        const Stack = createNativeStackNavigator();
 
         return (
-          <Map/>
+          
+            <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Map" component={Map} />
+              <Stack.Screen name="Reserve" component={Reserve} />
+              <Stack.Screen name="Chat" component={Chat} />
+              <Stack.Screen name="History" component={History} />
+              <Stack.Screen name="Profile" component={Profile} />
+              <Stack.Screen name="LogOut" component={LogOut} />
+            </Stack.Navigator>
+       
+
         );
+        
       }
+
       return (
         <View>
           <Text>

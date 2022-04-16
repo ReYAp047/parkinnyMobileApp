@@ -10,7 +10,7 @@ import LogIn from './components/LogIn';
 import Map from './components/Map';
 import Profile from './components/Profile';
 import Reserve from './components/Reserve';
-
+import LogOut from './components/LogOut';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +26,7 @@ export default class App extends React.Component{
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="History" component={History} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="LogOut" component={LogOut} />
         </Stack.Navigator>
       </NavigationContainer>
     );

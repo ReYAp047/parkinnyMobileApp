@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, SafeAreaView, Button, Dimensions , Image,  StyleSheet, Text, View } from 'react-native';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
-
 import MapView from 'react-native-maps';
 import * as React from 'react';
+import LogOut from './LogOut';
 
 export default class Map extends React.Component {
 render(){
+
     return(
         <SafeAreaView style={styles.container}>
         <View style={styles.container}>
@@ -22,7 +23,7 @@ render(){
 
           <TouchableOpacity
             activeOpacity={0.7}
-            
+            onPress={() => this.props.navigation.navigate('LogOut')}
             style={styles.touchableOpacityStyle}>
             <Image
               //We are making FAB using TouchableOpacity with an image
@@ -110,6 +111,7 @@ render(){
     );
 }
 }
+
 
 const styles = StyleSheet.create({
     container: {
