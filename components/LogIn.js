@@ -1,21 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect } from 'react';
 
-
 import * as AuthSession from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
-import { Button,View,Alert, Platform, StyleSheet, Image, Text } from 'react-native';
+import { View, Platform, Text, StyleSheet } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { AlertDialog, Button, Center, NativeBaseProvider } from "native-base";
 
-import Map from './Map';
-import Chat from './Chat';
-import History from './History';
-import LogOut from './LogOut';
-import Profile from './Profile';
-import Reserve from './Reserve';
-// you need to swap out these details with your auth0 credientals
+import { useNavigation } from '@react-navigation/native';
+
+
 const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
 const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/authorize";
 
@@ -25,9 +19,15 @@ const redirectUri = AuthSession.makeRedirectUri({ useProxy });
 
 console.log(redirectUri)  // <-- you will need to add this to your auth0 callbacks / logout configs
 
+let lo =true;
 
 
 export default function LogIn () { 
+  const [isOpen, setIsOpen] = React.useState(true);
+
+  const onClose = () => setIsOpen(false);
+
+  const cancelRef = React.useRef(null);
     const [request, result, promptAsync] = AuthSession.useAuthRequest(
       {
         redirectUri,
@@ -44,6 +44,8 @@ export default function LogIn () {
       { authorizationEndpoint }
     );
     
+
+
       useEffect(() => {
         promptAsync({ useProxy });
       
@@ -51,21 +53,34 @@ export default function LogIn () {
       
       if(result){
         global.foo = auth0ClientId;
-        const Stack = createNativeStackNavigator();
+        const navigation = useNavigation();
 
-        return (
+        return <NativeBaseProvider>
+                <Center style={styles.container}>
+                  <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
+                    <AlertDialog.Content>
+                      <AlertDialog.CloseButton />
+                      <AlertDialog.Header>Connected successfully</AlertDialog.Header>
+                      <AlertDialog.Body>
+                      Welcome to our application, you are now login press Continue botton and you can start.
+                      </AlertDialog.Body>
+                      <AlertDialog.Footer>
+                        <Button.Group space={2}>
+                          <Button colorScheme="success" onPress={() => navigation.navigate("Map")}>
+                            Continue
+                          </Button>
+                        </Button.Group>
+                      </AlertDialog.Footer>
+                    </AlertDialog.Content>
+                  </AlertDialog>
+                </Center>
+              </NativeBaseProvider>
+        
           
-            <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Map" component={Map} />
-              <Stack.Screen name="Reserve" component={Reserve} />
-              <Stack.Screen name="Chat" component={Chat} />
-              <Stack.Screen name="History" component={History} />
-              <Stack.Screen name="Profile" component={Profile} />
-              <Stack.Screen name="LogOut" component={LogOut} />
-            </Stack.Navigator>
-       
+         
+          
 
-        );
+        
         
       }
 
@@ -108,3 +123,11 @@ export default function LogIn () {
       );
   
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 50,
+
+  },
+});

@@ -5,9 +5,10 @@ import MapView from 'react-native-maps';
 import * as React from 'react';
 import LogOut from './LogOut';
 
-export default class Map extends React.Component {
-render(){
+import { useNavigation } from '@react-navigation/native';
 
+export default function Map () {
+  const navigation = useNavigation();
     return(
         <SafeAreaView style={styles.container}>
         <View style={styles.container}>
@@ -23,7 +24,7 @@ render(){
 
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => this.props.navigation.navigate('LogOut')}
+            onPress={() => navigation.navigate("LogOut")}
             style={styles.touchableOpacityStyle}>
             <Image
               //We are making FAB using TouchableOpacity with an image
@@ -109,7 +110,7 @@ render(){
       </SafeAreaView>
         
     );
-}
+
 }
 
 

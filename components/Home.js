@@ -4,9 +4,11 @@ import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import backImg from '.././assets/Background.jpg'; 
 import React from 'react';
 
+import { useNavigation } from '@react-navigation/native';
 
 export default class Home extends React.Component{
   render(){
+    const navigation = useNavigation;
     return (
       <View style={styles.container}>
              <ImageBackground source={backImg} resizeMode="cover" style={styles.image}></ImageBackground>
@@ -17,13 +19,13 @@ export default class Home extends React.Component{
                   <TouchableHighlight
                      style={styles.submitNormal}
                       underlayColor='#fff'
-                      onPress={() => this.props.navigation.navigate('LogIn')}>
+                      onPress={() => this.props.navigation.navigate("LogIn")}>
                     <Text style={styles.submitTextBlack}>LOG IN</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                      style={styles.submitOutline}
                       underlayColor='#fff'
-                      onPress={() => alert('Pressed!')}>
+                      onPress={() => navigation.navigate('LogIn')}>
                     <Text style={styles.submitTextWhite}>REGISTER</Text>
                   </TouchableHighlight>
   

@@ -18,15 +18,17 @@ export default class App extends React.Component{
   render(){
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="LogIn" component={LogIn} />
-          <Stack.Screen name="Map" component={Map} />
-          <Stack.Screen name="Reserve" component={Reserve} />
-          <Stack.Screen name="Chat" component={Chat} />
-          <Stack.Screen name="History" component={History} />
-          <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="LogOut" component={LogOut} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Group>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="LogIn" component={LogIn} />
+            <Stack.Screen name="Map" component={Map} />
+            <Stack.Screen name="Reserve" component={Reserve} />
+            <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="History" component={History} />
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="LogOut" component={LogOut} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     );
