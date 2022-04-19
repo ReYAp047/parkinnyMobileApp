@@ -21,11 +21,11 @@ console.log(redirectUri)  // <-- you will need to add this to your auth0 callbac
 
 let lo =true;
 
-
 export default function LogIn () { 
   const [isOpen, setIsOpen] = React.useState(true);
 
   const onClose = () => setIsOpen(false);
+  
 
   const cancelRef = React.useRef(null);
     const [request, result, promptAsync] = AuthSession.useAuthRequest(
@@ -51,8 +51,9 @@ export default function LogIn () {
       
     })
       
-      if(result){
+      if(result ){
         global.foo = auth0ClientId;
+        lo=false;
         const navigation = useNavigation();
 
         return <NativeBaseProvider>
@@ -62,7 +63,7 @@ export default function LogIn () {
                       <AlertDialog.CloseButton />
                       <AlertDialog.Header>Connected successfully</AlertDialog.Header>
                       <AlertDialog.Body>
-                      Welcome to our application, you are now login press Continue botton and you can start.
+                      Welcome to our application, now you logged In press -- Continue button and you can start.
                       </AlertDialog.Body>
                       <AlertDialog.Footer>
                         <Button.Group space={2}>

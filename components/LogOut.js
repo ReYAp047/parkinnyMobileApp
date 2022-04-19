@@ -26,6 +26,7 @@ export default function LogOut () {
     try {
       await openAuthSessionAsync(`${authorizationEndpoint}?client_id=${auth0ClientId}&returnTo=${redirectUri}`, 'redirectUrl');
       // handle unsetting your user from store / context / memory
+      console.log("Hello from dec")
     } catch (err) {
        console.error(err)    
     }

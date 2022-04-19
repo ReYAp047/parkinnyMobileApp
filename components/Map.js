@@ -3,7 +3,7 @@ import { TouchableOpacity, SafeAreaView, Button, Dimensions , Image,  StyleSheet
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import MapView from 'react-native-maps';
 import * as React from 'react';
-import LogOut from './LogOut';
+
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -91,7 +91,7 @@ export default function Map () {
 
           <TouchableOpacity
             activeOpacity={0.7}
-            
+            onPress={() => navigation.navigate("Reserve")}
             style={styles.touchableOpaMid}>
             <Image
               //We are making FAB using TouchableOpacity with an image
