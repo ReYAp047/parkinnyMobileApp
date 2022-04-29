@@ -12,9 +12,6 @@ export default function Map () {
     return(
         <SafeAreaView style={styles.container}>
         <View style={styles.container}>
-          <Text style={styles.titleStyle}>
-            Parking Ariana
-          </Text>
 
           
           <View style={styles.container}>
@@ -125,6 +122,7 @@ const styles = StyleSheet.create({
         //width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
         marginBottom: 60,
+        marginTop: 13,
       },
       titleStyle: {
         fontSize: 28,
