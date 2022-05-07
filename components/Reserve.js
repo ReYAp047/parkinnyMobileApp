@@ -2,8 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import firestore from '@react-native-firebase/firestore';
-
 
 import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
 
@@ -162,35 +160,29 @@ export default function Reserve () {
   const [userDoc, setUserDoc] = useState(null)
   const Create = () =>{
 
-      firestore()
-      .collection('Reservation')
-      .add({
-      ClientID: global.foo,
-      First_Matricule: firstmat,
-      Last_Matricule: lastmat,
-      Phone_Number: tel,
-    })
-    .then(() => {
-      console.log('User added!');
-    });
+    var id = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 16; i++)
+      id += possible.charAt(Math.floor(Math.random() * possible.length));
     
-    //const myDoc = doc(db, "MyCollection", "MyDocument")
+    const myDoc = doc(db, "Reservation", id)
 
-    //const docData = {
-      //"ClientID": global.foo,
-      //"First_Matricule": firstmat,
-      //"Last_Matricule": lastmat,
-      //"Phone_Number": tel,
-   // }
+    const docData = {
+      "ClientID": global.foo,
+      "First_Matricule": firstmat,
+      "Last_Matricule": lastmat,
+      "Phone_Number": tel,
+    }
 
-    //setDoc(myDoc, docData)
+    setDoc(myDoc, docData)
 
-    //.then(()=>{
-     // alert("Document Created!")
-  //  })
-  //  .catch((error)=>{
-     // alert(error.message)
-  //  })
+    .then(()=>{
+      alert("Document Created!")
+   })
+    .catch((error)=>{
+      alert(error.message)
+    })
   }
 
   const Read = () =>{

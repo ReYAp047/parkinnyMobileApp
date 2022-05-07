@@ -12,6 +12,7 @@ import Profile from './components/Profile';
 import Reserve from './components/Reserve';
 import LogOut from './components/LogOut';
 
+
 const Stack = createNativeStackNavigator();
 
 export default class App extends React.Component{
