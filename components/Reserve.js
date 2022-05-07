@@ -1,34 +1,221 @@
 import { StatusBar } from 'expo-status-bar';
 import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
+
 
 import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
 
-export default class Reserve extends React.Component {
-    constructor(props){
-    super(props);
-    this.state = {
-      number : '',
-        }
+import { db } from '.././Core/Config'
+
+export default function Reserve () {
+
+    let [one, setOne] = useState(false)
+    let [tow, setTow] = useState(false)
+    let [three, setThree] = useState(false)
+    let [four, setFour] = useState(false)
+    let [five, setFive] = useState(false)
+    let [six, setSix] = useState(false)
+    let [seven, setSeven] = useState(false)
+    let [eight, setEight] = useState(false)
+
+    let [washing, setWashing] = useState(false)
+
+
+  
+    const [number,setNumber] = useState("");
+    
+    const [firstmat, setFirstmat] = useState(null)
+    const [lastmat, setLastmat] = useState(null)
+    const [tel, setTel] = useState(null)
+
+    let [parkingprice, setParkingprice] = useState(0) 
+    let [washingprice, setWashingprice] = useState(0) 
+
+    
+  
+
+    const selectTimeOne = () =>{
+      
+      if(one){
+        setOne(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setOne(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeTow = () =>{
+      
+      if(tow){
+        setTow(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setTow(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeThree = () =>{
+      
+      if(three){
+        setThree(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setThree(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeFour = () =>{
+      
+      if(four){
+        setFour(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setFour(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeFive = () =>{
+      
+      if(five){
+        setFive(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setFive(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeSix = () =>{
+      
+      if(six){
+        setSix(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setSix(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeSeven = () =>{
+      
+      if(seven){
+        setSeven(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setSeven(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectTimeEight = () =>{
+      
+      if(eight){
+        setEight(false)
+        setParkingprice(parkingprice-3);
+      }else{
+        setEight(true)
+        setParkingprice(parkingprice+3);
+      }        
+    }
+
+    const selectWashing = () =>{
+      
+      if(washing){
+        setWashing(false)
+        setWashingprice(washingprice-3);
+      }else{
+        setWashing(true)
+        setWashingprice(washingprice+3);
+      }        
+    }
+
+
+
+ const onTextChanged = (firstValue) =>{
+    // code to remove non-numeric characters from text
+     setNumber({ number: firstValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+     setFirstmat(firstValue)
+  }
+  const onNumTextChanged = (numValue) => {
+    // code to remove non-numeric characters from text
+    setNumber({ number: numValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+    setLastmat(numValue)
   }
 
- onTextChanged(firstValue) {
+  const onTelTextChanged = (telValue) => {
     // code to remove non-numeric characters from text
-    this.setState({ number: firstValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
-  }
-  onNumTextChanged(numValue) {
-    // code to remove non-numeric characters from text
-    this.setState({ number: numValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+    setNumber({ number: telValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+    setTel(telValue)
   }
 
-  onTelTextChanged(telValue) {
-    // code to remove non-numeric characters from text
-    this.setState({ number: telValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
-  }
+
 
   
 
-render(){
+
+  const [userDoc, setUserDoc] = useState(null)
+  const Create = () =>{
+
+      firestore()
+      .collection('Reservation')
+      .add({
+      ClientID: global.foo,
+      First_Matricule: firstmat,
+      Last_Matricule: lastmat,
+      Phone_Number: tel,
+    })
+    .then(() => {
+      console.log('User added!');
+    });
+    
+    //const myDoc = doc(db, "MyCollection", "MyDocument")
+
+    //const docData = {
+      //"ClientID": global.foo,
+      //"First_Matricule": firstmat,
+      //"Last_Matricule": lastmat,
+      //"Phone_Number": tel,
+   // }
+
+    //setDoc(myDoc, docData)
+
+    //.then(()=>{
+     // alert("Document Created!")
+  //  })
+  //  .catch((error)=>{
+     // alert(error.message)
+  //  })
+  }
+
+  const Read = () =>{
+
+    const myDoc = doc(db, "MyCollection", "MyDocument")
+
+    getDoc(myDoc)
+    
+    .then((snapshot)=>{
+      if(snapshot.exists){
+        setUserDoc(snapshot.data())
+      }else{
+        alert("No Doc Found")
+      }
+    })
+    .catch((error)=>{
+      alert(error.message)
+    })
+    
+  }
+
+    const Update = () =>{}
+
+  const Delete = () =>{
+}
     return(
       <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -51,25 +238,25 @@ render(){
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeOne}>
                            <Text style={styles.submitTextWhite}>06-08</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeTow}>
                            <Text style={styles.submitTextWhite}>08-10</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeThree}>
                            <Text style={styles.submitTextWhite}>10-12</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeFour}>
                            <Text style={styles.submitTextWhite}>12-14</Text>
                         </TouchableHighlight>
                      </View>    
@@ -77,25 +264,25 @@ render(){
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeFive}>
                            <Text style={styles.submitTextWhite}>14-16</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeSix}>
                            <Text style={styles.submitTextWhite}>16-18</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeSeven}>
                            <Text style={styles.submitTextWhite}>18-20</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                            style={styles.submitNormal}
                            underlayColor='#E9E9E9'
-                           onPress={() => navigation.navigate('LogIn')}>
+                           onPress={selectTimeEight}>
                            <Text style={styles.submitTextWhite}>20-22</Text>
                         </TouchableHighlight>
                      </View>                 
@@ -107,7 +294,7 @@ render(){
                       <TouchableHighlight
                         style={styles.submitService}
                         underlayColor='#E9E9E9'
-                        onPress={() => navigation.navigate('LogIn')}>
+                        onPress={selectWashing}>
                         <Text style={styles.submitTextWhite}>Washing car</Text>
                       </TouchableHighlight>
                      </View>
@@ -125,8 +312,8 @@ render(){
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
                               keyboardType="numeric"
-                              onChangeText={firstValue => this.onTextChanged(firstValue)}
-                              firstValue={this.state.number}
+                              onChangeText={firstValue => onTextChanged(firstValue)}
+                              firstValue={number}
                             />
                             <Text style={styles.carNumberText}>تونس</Text>
                             <TextInput
@@ -135,8 +322,8 @@ render(){
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
                               keyboardType="numeric"
-                              onChangeText={numValue => this.onNumTextChanged(numValue)}
-                              numValue={this.state.number}
+                              onChangeText={numValue => onNumTextChanged(numValue)}
+                              numValue={number}
                             />
                           </View>
                         </View>
@@ -154,8 +341,8 @@ render(){
                               placeholderTextColor={'black'}
                               style={styles.phoneNumberText}
                               keyboardType="numeric"
-                              onChangeText={telValue => this.onTelTextChanged(telValue)}
-                              telValue={this.state.number}
+                              onChangeText={telValue => onTelTextChanged(telValue)}
+                              telValue={number}
                             />
                            
                           </View>
@@ -172,14 +359,14 @@ render(){
                           <View style={styles.phoneStyle}>
                             <Text style={styles.priceStyle}>Parking price</Text>
                             <View style={styles.phoneNumber}>
-                              <Text style={styles.priceText}>6.00 dt</Text>
+                              <Text style={styles.priceText}>{parkingprice} dt</Text>
                             </View>
                           </View>
 
                           <View style={styles.phoneStyle}>
                             <Text style={styles.priceStyle}>Washing price</Text>
                             <View style={styles.phoneNumber}>
-                              <Text style={styles.priceText}>6.00 dt</Text>
+                              <Text style={styles.priceText}>{washingprice} dt</Text>
                             </View>
                           </View>
                     </Center>
@@ -193,7 +380,7 @@ render(){
                       <View style={styles.phoneStyle}>
                         <Text style={styles.priceStyle}>Total price</Text>
                         <View style={styles.phoneNumber}>
-                          <Text style={styles.priceText}>12.00 dt</Text>
+                          <Text style={styles.priceText}>{parkingprice+washingprice} dt</Text>
                         </View>
                       </View>
                     </Center>
@@ -202,7 +389,7 @@ render(){
                       <TouchableHighlight
                         style={styles.submitOutline}
                           underlayColor='#fff'
-                          onPress={() => navigation.navigate('LogIn')}>
+                          onPress={Create}>
                         <Text style={styles.submitTextWhite}>VALIDATE</Text>
                       </TouchableHighlight>
                     </Center>
@@ -219,8 +406,9 @@ render(){
 
 
     )
+
 }
-}
+let isBackgroundRed = true;
 
 const styles = StyleSheet.create({
   container: {
@@ -265,7 +453,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingRight: 15,
     paddingLeft: 15,
-    backgroundColor: '#D4D3D3',
+    backgroundColor: isBackgroundRed ? '#D4D3D3' : 'blue',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#D4D3D3',
