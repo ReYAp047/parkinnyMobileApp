@@ -14,7 +14,7 @@ export default function Reserve () {
     let [three, setThree] = useState(false)
     let [four, setFour] = useState(false)
     let [five, setFive] = useState(false)
-    let [six, setSix] = useState(false)
+    let [six, setSix] = useState(false) 
     let [seven, setSeven] = useState(false)
     let [eight, setEight] = useState(false)
 
@@ -160,9 +160,9 @@ export default function Reserve () {
   const [userDoc, setUserDoc] = useState(null)
   const Create = () =>{
 
+    //ceating a random id for the reservation
     var id = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
     for (var i = 0; i < 16; i++)
       id += possible.charAt(Math.floor(Math.random() * possible.length));
     

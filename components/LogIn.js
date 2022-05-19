@@ -67,7 +67,7 @@ export default function LogIn () {
                       </AlertDialog.Body>
                       <AlertDialog.Footer>
                         <Button.Group space={2}>
-                          <Button colorScheme="success" onPress={() => navigation.navigate("Map")}>
+                          <Button colorScheme="success" onPress={() => navigation.navigate("Tabs")}>
                             Continue
                           </Button>
                         </Button.Group>
