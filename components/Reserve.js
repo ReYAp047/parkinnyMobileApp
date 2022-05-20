@@ -228,51 +228,59 @@ export default function Reserve () {
                      <Heading size="xs" style={styles.serviceHeader}>Choose your reservation Hours</Heading>
                      <View style={styles.rowTimeStyle}>
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: one ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
-                           onPress={selectTimeOne}>
+                           onPress={selectTimeOne}
+                           >
                            <Text style={styles.submitTextWhite}>06-08</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: tow ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeTow}>
                            <Text style={styles.submitTextWhite}>08-10</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: three ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeThree}>
                            <Text style={styles.submitTextWhite}>10-12</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: four ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeFour}>
                            <Text style={styles.submitTextWhite}>12-14</Text>
                         </TouchableHighlight>
-                     </View>    
+
+                     </View>   
+
                      <View style={styles.rowTimeStyle}>
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: five ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeFive}>
                            <Text style={styles.submitTextWhite}>14-16</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: six ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeSix}>
                            <Text style={styles.submitTextWhite}>16-18</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: seven ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeSeven}>
                            <Text style={styles.submitTextWhite}>18-20</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
-                           style={styles.submitNormal}
+                           style={[styles.submitNormal, { backgroundColor: eight ? 'blue' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeEight}>
                            <Text style={styles.submitTextWhite}>20-22</Text>
@@ -284,7 +292,7 @@ export default function Reserve () {
                      <Heading size="xs" style={styles.serviceHeader}>Choose an extra service if you want</Heading>
                      <View style={styles.rowTimeStyle}>
                       <TouchableHighlight
-                        style={styles.submitService}
+                        style={[styles.submitService, { backgroundColor: washing ? 'blue' : '#D4D3D3' }]}
                         underlayColor='#E9E9E9'
                         onPress={selectWashing}>
                         <Text style={styles.submitTextWhite}>Washing car</Text>
@@ -445,7 +453,6 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingRight: 15,
     paddingLeft: 15,
-    backgroundColor: isBackgroundRed ? '#D4D3D3' : 'blue',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#D4D3D3',
