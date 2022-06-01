@@ -10,7 +10,10 @@ import Carousel from 'react-native-snap-carousel';
 
 export default function Map () {
 
+
+
   state = {
+    
     markers: [],
     coordinates: [
       {name: 'Parking1',names:'parking1', latitude: 35.50311, longitude: 11.05604, image: require('../assets/parking3.jpg')},
@@ -51,6 +54,8 @@ export default function Map () {
     })
 
     this.state.markers[index].showCallout()
+    global.loc=location;
+    console.log(global.loc);
   }
 
   onMarkerPressed = (location, index) => {
@@ -59,9 +64,12 @@ export default function Map () {
       longitude: location.longitude,
       //latitudeDelta: 0.09,
       //longitudeDelta: 0.06
+      
     });
 
     this._carousel.snapToItem(index);
+    global.loc=location;
+    console.log(global.loc);
   }
   
   renderCarouselItem = ({ item }) =>
@@ -72,29 +80,13 @@ export default function Map () {
 
 
 
-
-
-
-
-
-
-   const sheetRef = useRef(null);
-   const [isOpen, setIsOpen] = useState(true);
-
-   const snapPoints = ["40%",];
-
-   const handleSnapPress = useCallback((index) => {
-    sheetRef.current?.snapToIndex(index);
-    setIsOpen(true);
-   }, []);
-
     return(
         <SafeAreaView style={styles.container}>
  <View style={styles.container}>
          <MapView
             style={styles.map}
             showsUserLocation= {true}
-            //showsMyLocationButton= {true}
+            showsMyLocationButton= {true}
             ref ={ref => this._map  = ref}
             initialRegion={this.state.initialPosition} 
                  >
@@ -106,8 +98,14 @@ export default function Map () {
                       onPress={() => this.onMarkerPressed(marker, index)}
                       coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
                       title={marker.name}
-                     // image= 
+
+ 
                       >
+                          <Image
+                            source={require('.././assets/marker.png')}
+                            style={{width: 32, height: 34}}
+                            resizeMode="contain"
+                          />
                     <Callout>
                      <Text>{marker.name} </Text>
                   </Callout>
@@ -141,6 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 3,
   },
   map: {
      width: Dimensions.get('window').width,

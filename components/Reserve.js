@@ -185,29 +185,6 @@ export default function Reserve () {
     })
   }
 
-  const Read = () =>{
-
-    const myDoc = doc(db, "MyCollection", "MyDocument")
-
-    getDoc(myDoc)
-    
-    .then((snapshot)=>{
-      if(snapshot.exists){
-        setUserDoc(snapshot.data())
-      }else{
-        alert("No Doc Found")
-      }
-    })
-    .catch((error)=>{
-      alert(error.message)
-    })
-    
-  }
-
-    const Update = () =>{}
-
-  const Delete = () =>{
-}
     return(
       <SafeAreaView style={styles.container}>
         <ScrollView>
