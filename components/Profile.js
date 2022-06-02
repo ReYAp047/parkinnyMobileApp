@@ -121,7 +121,7 @@ export default function Profile () {
 
         <Center>
         <QRCode
-          value={'id client'}
+          value={global.foo}
           size={250}
           bgColor='black'
           fgColor='white'/>

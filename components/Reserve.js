@@ -174,13 +174,21 @@ export default function Reserve ({navigation}) {
       "Last_Matricule": lastmat,
       "Phone_Number": tel,
       "Parking": global.loc,
+      "One": one,
+      "Tow": tow,
+      "Three": three,
+      "Four": four,
+      "Five": five,
+      "Six": six,
+      "Seven": seven,
+      "Eight": eight,
 
     }
 
     setDoc(myDoc, docData)
 
     .then(()=>{
-      alert("Document Created!")
+      alert("Reservation booked!")
    })
     .catch((error)=>{
       alert(error.message)
