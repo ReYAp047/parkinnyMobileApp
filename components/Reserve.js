@@ -7,7 +7,7 @@ import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
 
 import { db } from '.././Core/Config'
 
-export default function Reserve () {
+export default function Reserve ({navigation}) {
 
     let [one, setOne] = useState(false)
     let [tow, setTow] = useState(false)
@@ -173,6 +173,8 @@ export default function Reserve () {
       "First_Matricule": firstmat,
       "Last_Matricule": lastmat,
       "Phone_Number": tel,
+      "Parking": global.loc,
+
     }
 
     setDoc(myDoc, docData)
@@ -183,6 +185,8 @@ export default function Reserve () {
     .catch((error)=>{
       alert(error.message)
     })
+
+    navigation.navigate('Profile')
   }
 
     return(
