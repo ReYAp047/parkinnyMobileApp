@@ -1,8 +1,12 @@
-import { StyleSheet, TextInput,Text,Image, View, Dimensions,TouchableOpacity} from 'react-native';
+import { StyleSheet, TextInput,Text,Image, View, TouchableHighlight,TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import QRCode from 'react-native-qrcode-generator';
 import { HORIZONTAL } from 'react-native/Libraries/Components/ScrollView/ScrollViewContext';
+
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '.././Core/Config'
+
 
 import {Center, NativeBaseProvider } from 'native-base';
 
@@ -32,6 +36,60 @@ export default function Profile () {
   }
 
 
+
+  const [name, setName] = useState(null)
+  const [firstmat, setFirstmat] = useState(null)
+  const [lastmat, setLastmat] = useState(null)
+  const [tel, setTel] = useState(null)
+
+  const onNameChanged = (firstValue) =>{
+     setName(firstValue)
+  }
+  const onTextChanged = (firstValue) =>{
+    // code to remove non-numeric characters from text
+     setNumber({ number: firstValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+     setFirstmat(firstValue)
+  }
+  const onNumTextChanged = (numValue) => {
+    // code to remove non-numeric characters from text
+    setNumber({ number: numValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+    setLastmat(numValue)
+  }
+
+  const onTelTextChanged = (telValue) => {
+    // code to remove non-numeric characters from text
+    setNumber({ number: telValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
+    setTel(telValue)
+  }
+
+  const Create = () =>{
+
+    //ceating a random id for the reservation
+    var id = global.foo;
+    
+    const myDoc = doc(db, "Client", id)
+
+
+    const docData = {
+      "ClientID": global.foo,
+      "Name": name,
+      "First_Matricule": firstmat,
+      "Last_Matricule": lastmat,
+      "Phone_Number": tel,
+
+    }
+
+    setDoc(myDoc, docData)
+
+    .then(()=>{
+      alert("Information saved!")
+   })
+    .catch((error)=>{
+      alert(error.message)
+    })
+  }
+
+
   return (   
     <View style={styles.container}>
     <NativeBaseProvider>
@@ -47,19 +105,14 @@ export default function Profile () {
         </Center>
 
 
-
-
-
         <View style={styles.boxView}>
         <Center>
-
-        <TextInput
-                              placeholder={'Foulen Ben Foulen'}
-                              style={styles.text2}
-
-
-                              firstValue={"Foulen Ben Foulen"}
-                            />
+          <TextInput
+            placeholder={'Foulen Ben Foulen'}
+            style={styles.text2}
+            firstValue={"Foulen Ben Foulen"}
+            onChangeText={firstValue => onNameChanged(firstValue)}
+          />
         </Center>
 
                         <View style={styles.rowStyle}>
@@ -103,15 +156,16 @@ export default function Profile () {
                               onChangeText={telValue => onTelTextChanged(telValue)}
                               telValue={number}
                             />
-                           
                           </View>
                           
                         </View>
+                        <TouchableHighlight
+                          style={styles.submitOutline}
+                          underlayColor='#fff'
+                          onPress={Create}>
+                         <Text style={styles.submitTextWhite}>Save</Text>
+                        </TouchableHighlight>
                       </View>
-
-
-
-
 
 
       </View>
@@ -125,7 +179,7 @@ export default function Profile () {
           size={250}
           bgColor='black'
           fgColor='white'/>
-          <Text style={styles.text1}> Expire ofter 4hours</Text>
+          <Text style={styles.text1}> Expire After 4hours</Text>
         </Center>
           
       </NativeBaseProvider>
@@ -145,7 +199,6 @@ const styles = StyleSheet.create({
       height: 50,
       //borderColor: 'gray',
       //borderWidth: 1,
-      margin: 10,
       fontSize: 27,
       borderRadius: 15,
       padding: 10,
@@ -153,7 +206,6 @@ const styles = StyleSheet.create({
   text1: {
       color: 'red',
       justifyContent: 'center',
-      marginTop: 15,
       marginBottom: 15,
       fontSize: 15,
   },
@@ -163,10 +215,9 @@ const styles = StyleSheet.create({
       fontSize: 30,
   },
   image: {
-      marginBottom: 20,
       marginTop: 30,
-      height: 150,
-      width: 150,
+      height: 120,
+      width: 120,
       justifyContent: 'center',
       alignItems: 'center',
   },
@@ -184,7 +235,7 @@ const styles = StyleSheet.create({
   boxView: {
     padding: 20,
     backgroundColor: '#CCCCCC',
-    marginTop: 10,
+    marginTop: 2,
     borderRadius: 10,
     
   },
@@ -204,6 +255,8 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#000',
     flexDirection: "row",
+    borderWidth: 1,
+    borderColor: '#fff',
     
     
   },
@@ -227,6 +280,7 @@ const styles = StyleSheet.create({
   phoneStyle: {
     flexDirection: "row",
     marginTop: 5,
+
   },
  telNumber: {
     color: '#000',
@@ -264,6 +318,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'normal',
     marginRight: 10,
+    marginTop: 3,
     },
     carNumberText: {
       color: '#fff',
@@ -280,5 +335,23 @@ const styles = StyleSheet.create({
       height: 30,
       marginTop: 5,
       marginRight: 5,
+    },
+    submitOutline: {
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingRight: 40,
+      paddingLeft: 40,
+      backgroundColor: '#000',
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: '#fff',
+      
+    },
+    submitTextWhite: {
+      color: '#fff',
+      textAlign: 'center',
+      fontFamily: 'Roboto',
+      fontSize: 17,
+      fontWeight: 'bold',
     },
 });

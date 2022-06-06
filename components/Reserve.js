@@ -168,12 +168,21 @@ export default function Reserve ({navigation}) {
     
     const myDoc = doc(db, "Reservation", id)
 
+    var date = new Date().getDate(); //To get the Current Date
+    var month = new Date().getMonth() + 1; //To get the Current Month
+    var year = new Date().getFullYear(); //To get the Current Year
+
+
     const docData = {
       "ClientID": global.foo,
       "First_Matricule": firstmat,
       "Last_Matricule": lastmat,
       "Phone_Number": tel,
       "Parking": global.loc,
+      "TotalPrice": parkingprice+washingprice,
+      "Date": date,
+      "Month": month,
+      "Year": year,
       "One": one,
       "Tow": tow,
       "Three": three,
