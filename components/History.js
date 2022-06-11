@@ -10,7 +10,8 @@ import {
   View,
 } from 'react-native';
 import {Center, NativeBaseProvider } from 'native-base';
-import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+
+
 
 const DATA = [
   {
@@ -56,9 +57,6 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
 export default function History() {
 
-const sheetRef = useRef(null);
-const [isOpen, setIsOpen] = useState(true);
-const snapPoints = ["60%"];
 
 
   const [selectedId, setSelectedId] = useState(null);
@@ -93,17 +91,6 @@ const snapPoints = ["60%"];
           extraData={selectedId}
         />
       </NativeBaseProvider>
-
- 
-        <BottomSheet 
-          ref={sheetRef}
-          snapPoints={snapPoints}
-          enablePanDownToClose={true}
-          >
-          <BottomSheetView>
-            <Text>Dali</Text>
-          </BottomSheetView>
-        </BottomSheet>
 
     </SafeAreaView>
   );

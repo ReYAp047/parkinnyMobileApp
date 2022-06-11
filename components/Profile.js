@@ -1,8 +1,9 @@
 import { StyleSheet, TextInput,Text,Image, View, TouchableHighlight,TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import QRCode from 'react-native-qrcode-generator';
-import { HORIZONTAL } from 'react-native/Libraries/Components/ScrollView/ScrollViewContext';
+
+import { LogBox } from 'react-native';
 
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '.././Core/Config'
@@ -10,6 +11,7 @@ import { db } from '.././Core/Config'
 
 import {Center, NativeBaseProvider } from 'native-base';
 
+LogBox.ignoreLogs(['Setting a timer']);
 export default function Profile () {
   const [number,setNumber] = useState("");
   const [image, setImage] = React.useState('')
@@ -90,6 +92,56 @@ export default function Profile () {
   }
 
 
+
+  let [userName, setUserName] = useState(null)
+  let [carFistNumber, setCarFistNumber] = useState(null)
+  let [carLastNumber, setCarLastNumber] = useState(null)
+  let [userNumber, setUserNumber] = useState(null)
+  //storing user info
+  let [userDoc, setUserDoc] = useState(null)
+  const Read = () =>{
+
+    var id = global.foo;
+
+    const myDoc = doc(db, "Client", id)
+
+    getDoc(myDoc)
+    //success
+    .then((snapshot)=>{
+      if(snapshot.exists){
+        setUserDoc(snapshot.data())
+      }else{
+        alert("No old Client information found!")
+      }
+      
+   })
+   //failed
+    .catch((error)=>{
+      alert(error.message)
+    })
+  }
+
+  // To get tha data of the user
+  useEffect(() => {
+    Read()
+    if(userDoc){
+      setUserName(userDoc.Name)
+      setCarFistNumber(userDoc.First_Matricule)
+      setCarLastNumber(userDoc.Last_Matricule)
+      setUserNumber(userDoc.Phone_Number)
+
+    }else{
+      setUserName("Foulen Ben Foulen")
+      setCarFistNumber("000")
+      setCarLastNumber("9999")
+      setUserNumber("xxxxxxxx")
+    }
+  });
+
+
+
+
+
   return (   
     <View style={styles.container}>
     <NativeBaseProvider>
@@ -108,18 +160,20 @@ export default function Profile () {
         <View style={styles.boxView}>
         <Center>
           <TextInput
-            placeholder={'Foulen Ben Foulen'}
-            style={styles.text2}
-            firstValue={"Foulen Ben Foulen"}
-            onChangeText={firstValue => onNameChanged(firstValue)}
-          />
+              placeholder={userName}
+              style={styles.text2}
+              firstValue={userName}
+              value={userName}
+              onChangeText={firstValue => onNameChanged(firstValue)}
+            />
         </Center>
 
                         <View style={styles.rowStyle}>
                           <Text style={styles.textRegistration}>Vehicle registration</Text>
                           <View style={styles.carNumberBox}>
-                            <TextInput
-                              placeholder={'000'}
+                          <TextInput
+                              placeholder={carFistNumber}
+                              value={carFistNumber}
                               maxLength={3}
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
@@ -129,7 +183,8 @@ export default function Profile () {
                             />
                             <Text style={styles.carNumberText}>تونس</Text>
                             <TextInput
-                              placeholder={'9999'}
+                              placeholder={carLastNumber}
+                              value={carLastNumber}
                               maxLength={4}
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
@@ -146,8 +201,9 @@ export default function Profile () {
                           <Text style={styles.telNumber}>Phone number</Text>
                           <Text style={styles.phoneCountry}>+216</Text>
                           <View style={styles.phoneNumber}>
-                              <TextInput
-                              placeholder={'xxxxxxxx'}
+                          <TextInput
+                              placeholder={userNumber}
+                              value={userNumber}
                               maxLength={8}
                               minLength={8}
                               placeholderTextColor={'black'}
