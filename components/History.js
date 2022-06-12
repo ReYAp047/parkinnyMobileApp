@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -9,45 +9,25 @@ import {
   Image,
   View,
 } from 'react-native';
+
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from '.././Core/Config'
+
 import {Center, NativeBaseProvider } from 'native-base';
 
 
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Parking Name',
-    image:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1654534711/male_man_people_person_avatar_white_tone_icon_159363_ebtiac_1_vha7zo.png',
-    date: 'dd/mm/yyy',
-    time: '09:13',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Parking Name',
-    image:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1654534711/male_man_people_person_avatar_white_tone_icon_159363_ebtiac_1_vha7zo.png',
-    date: 'dd/mm/yyy',
-    time: '09:13',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Parking Name',
-    image:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1654534711/male_man_people_person_avatar_white_tone_icon_159363_ebtiac_1_vha7zo.png',
-    date: 'dd/mm/yyy',
-    time: '09:13',
-  },
-  
-];
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-  <Image source={{uri:item.image,}} style={{width: 60, height: 60}} />
+  <Image source={{uri:"https://res.cloudinary.com/dhncrtnjp/image/upload/v1654534711/male_man_people_person_avatar_white_tone_icon_159363_ebtiac_1_vha7zo.png",}} style={{width: 60, height: 60}} />
 
   <View>
-   <Text style={[styles.title, textColor]}>{item.title}</Text>
+   <Text style={[styles.title, textColor]}>{item.Parking.name}</Text>
 
    <View style={{marginTop:5 ,flexDirection: "row", justifyContent: 'space-between',}}>
-    <Text style={[styles.date, textColor]}>{item.date}</Text>
-    <Text style={[styles.time, textColor]}>{item.time}</Text>
+    <Text style={[styles.date, textColor]}>{item.Date + "/" + item.Month + "/" + item.Year}</Text>
+    <Text style={[styles.time, textColor]}>{"10:00"}</Text>
    </View>
 
   </View>
@@ -74,6 +54,37 @@ export default function History() {
       />
     );
   };
+
+
+   //storing user info
+
+   let [DATA, setDATA] = useState(null)
+
+   const Read =  async() =>{
+   
+    let INFO = [];
+
+    const q = query(collection(db, "Reservation"), where("ClientID", "==", global.foo));
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      INFO.push(doc.data())
+      console.log(INFO);
+    });
+
+    setDATA(INFO)
+    
+   }
+ 
+   // To get tha data of the user
+
+   
+   useEffect(() => {
+    
+     Read()
+   }, []);
+   
 
   return (
     <SafeAreaView style={styles.container}>

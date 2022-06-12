@@ -13,27 +13,26 @@ import {Center, NativeBaseProvider } from 'native-base';
 
 LogBox.ignoreLogs(['Setting a timer']);
 export default function Profile () {
+
+
   const [number,setNumber] = useState("");
+  
   const [image, setImage] = React.useState('')
   const pickImage = async() =>{
-      //Demande la permission pour acceder a la camera
-      let permissionResult =  await ImagePicker.requestMediaLibraryPermissionsAsync();
-     //La permission n'est pas accordée , on fait rien on sort
-      if (permissionResult.granted === false) {
-        alert("Permission to access camera roll is required!");
-        return;
-      }
-     //La permission a été accerdée
-      let Result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images, //photos ,videos au tout
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });//Lance la galerie
-        launchCameraAsync
-      if (Result.cancelled == false){
-          setImage(Result.uri)
-      }
+
+  // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
     
   }
 
@@ -78,6 +77,7 @@ export default function Profile () {
       "First_Matricule": firstmat,
       "Last_Matricule": lastmat,
       "Phone_Number": tel,
+      "Image" : image,
 
     }
 
@@ -129,6 +129,7 @@ export default function Profile () {
       setCarFistNumber(userDoc.First_Matricule)
       setCarLastNumber(userDoc.Last_Matricule)
       setUserNumber(userDoc.Phone_Number)
+      setImage(userDoc.Image)
 
     }else{
       setUserName("Foulen Ben Foulen")
@@ -151,7 +152,7 @@ export default function Profile () {
         {image == '' ?
         <Image style={styles.image} source={require('../assets/upload.png')} /> 
         :
-        <Image style={[styles.image, styles.avatar]} source={{uri : image}} /> 
+        <Image style={styles.image} source={{uri : image}} /> 
         } 
         </TouchableOpacity>
         </Center>
@@ -163,7 +164,6 @@ export default function Profile () {
               placeholder={userName}
               style={styles.text2}
               firstValue={userName}
-              value={userName}
               onChangeText={firstValue => onNameChanged(firstValue)}
             />
         </Center>
@@ -173,7 +173,6 @@ export default function Profile () {
                           <View style={styles.carNumberBox}>
                           <TextInput
                               placeholder={carFistNumber}
-                              value={carFistNumber}
                               maxLength={3}
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
@@ -184,7 +183,6 @@ export default function Profile () {
                             <Text style={styles.carNumberText}>تونس</Text>
                             <TextInput
                               placeholder={carLastNumber}
-                              value={carLastNumber}
                               maxLength={4}
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
@@ -203,7 +201,6 @@ export default function Profile () {
                           <View style={styles.phoneNumber}>
                           <TextInput
                               placeholder={userNumber}
-                              value={userNumber}
                               maxLength={8}
                               minLength={8}
                               placeholderTextColor={'black'}
@@ -361,7 +358,6 @@ const styles = StyleSheet.create({
       marginTop: 12,
       },
   phoneNumber: {
- 
     marginTop: 7,
   },
  phoneNumberText:{

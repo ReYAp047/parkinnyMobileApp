@@ -174,6 +174,7 @@ export default function Reserve ({navigation}) {
 
 
     const docData = {
+      "id" : id,
       "ClientID": global.foo,
       "First_Matricule": firstmat,
       "Last_Matricule": lastmat,
