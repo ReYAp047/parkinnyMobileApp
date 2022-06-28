@@ -9,11 +9,7 @@ import Carousel from 'react-native-snap-carousel';
 
 
 export default function Map () {
-
-
-
   state = {
-    
     markers: [],
     coordinates: [
       {name: 'Parking1',names:'parking1', latitude: 35.50311, longitude: 11.05604, image: require('../assets/parking3.jpg')},
@@ -21,7 +17,13 @@ export default function Map () {
       {name: 'Parking3',names:'parking3',  latitude: 35.50811, longitude: 11.05442, image: require('../assets/parking3.jpg')},
       {name: 'Parking4',names:'parking4',  latitude: 35.50613, longitude: 11.05989, image: require('../assets/parking3.jpg')},
       {name: 'Parking5',names:'parking5', latitude: 35.50465, longitude: 11.05935, image: require('../assets/parking3.jpg')},
-      {name: 'Parking6',names:'parking6', latitude: 35.50128, longitude: 11.05989, image: require('../assets/parking3.jpg')}, 
+      {name: 'Parking6',names:'parking6', latitude: 35.50128, longitude: 11.05989, image: require('../assets/parking3.jpg')},
+      {name: 'Parking7',names:'Tunis-Carthage International Airport', latitude: 36.8452, longitude: 10.1647, image: require('../assets/parking3.jpg')},
+      {name: 'Parking8', names:'AFRICA MALL', latitude: 36.85848527696623, longitude: 10.218306272963153 , image: require('../assets/parking3.jpg')},
+      {name: 'Parking9',names:'Cite Monplaisir et Borgel',  latitude: 36.85068443316672, longitude: 11.05442, image: require('../assets/parking3.jpg')},
+      {name: 'Parking10',names:'Parking Le Palmarium',  latitude: 36.79860671747816, longitude: 10.18072795384903, image: require('../assets/parking3.jpg')},
+      {name: 'Parking11',names:'Parking, Tunis', latitude: 36.7981669380127, longitude: 10.164887198025717, image: require('../assets/parking3.jpg')},
+      {name: 'Parking12',names:'Parking lot', latitude: 36.83824559295232, longitude: 10.186082575839222, image: require('../assets/parking3.jpg')}, 
     ]
   }
   locateCurrentPosition = () => {

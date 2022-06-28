@@ -7,9 +7,6 @@ import Home from './Home';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import backImg from '.././assets/Background.jpg'; 
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import { useNavigation } from '@react-navigation/native';
 
 const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
 const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/v2/logout";
@@ -17,8 +14,7 @@ const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/v2/logout";
 const useProxy = Platform.select({ web: false, default: true });
 const redirectUri = AuthSession.makeRedirectUri({ useProxy }); // <-- must be set in allowed logout urls
 let ses = false;
-export default function LogOut () { 
-  const navigation = useNavigation();
+export default function LogOut ({navigation}) { 
   const logout = async () => {
     ses=true
    
@@ -27,6 +23,7 @@ export default function LogOut () {
       await openAuthSessionAsync(`${authorizationEndpoint}?client_id=${auth0ClientId}&returnTo=${redirectUri}`, 'redirectUrl');
       // handle unsetting your user from store / context / memory
       console.log("Hello from dec")
+      navigation.navigate('Home')
     } catch (err) {
        console.error(err)    
     }

@@ -65,7 +65,6 @@ export default function Profile () {
 
   const Create = () =>{
 
-    //ceating a random id for the reservation
     var id = global.foo;
     
     const myDoc = doc(db, "Client", id)
@@ -232,7 +231,6 @@ export default function Profile () {
           size={250}
           bgColor='black'
           fgColor='white'/>
-          <Text style={styles.text1}> Expire After 4hours</Text>
         </Center>
           
       </NativeBaseProvider>

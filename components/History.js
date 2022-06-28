@@ -83,7 +83,7 @@ export default function History() {
    useEffect(() => {
     
      Read()
-   }, []);
+   });
    
 
   return (
