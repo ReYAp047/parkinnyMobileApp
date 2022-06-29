@@ -5,7 +5,8 @@ import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvide
 
 import { Marker ,PROVIDER_GOOGLE,Callout} from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 
 export default function Map () {

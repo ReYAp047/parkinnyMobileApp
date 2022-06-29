@@ -14,7 +14,8 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '.././Core/Config'
 
 import {Center, NativeBaseProvider } from 'native-base';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 
 

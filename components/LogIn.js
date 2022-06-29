@@ -8,7 +8,8 @@ import { View, Platform, Text, StyleSheet } from 'react-native';
 import { AlertDialog, Button, Center, NativeBaseProvider } from "native-base";
 
 import { useNavigation } from '@react-navigation/native';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
 const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/authorize";

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput } from 'react-native';
+import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox } from 'react-native';
 import React, { useState } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
@@ -7,6 +7,7 @@ import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
 
 import { db } from '.././Core/Config'
 
+LogBox.ignoreAllLogs();
 export default function Reserve ({navigation}) {
 
     let [one, setOne] = useState(false)

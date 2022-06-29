@@ -5,7 +5,8 @@ import backImg from '.././assets/Background.jpg';
 import React from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 export default class Home extends React.Component{
   render(){
     const navigation = useNavigation;

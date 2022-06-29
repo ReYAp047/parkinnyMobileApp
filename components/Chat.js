@@ -14,7 +14,8 @@ import {
   Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 export default function Chat() {
   const [chatUser] = useState({

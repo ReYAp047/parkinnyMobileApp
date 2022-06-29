@@ -6,7 +6,8 @@ import Home from './Home';
 
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import backImg from '.././assets/Background.jpg'; 
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
 const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/v2/logout";

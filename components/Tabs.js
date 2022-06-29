@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
+import { Image, LogBox, View } from 'react-native';
 
 import Map from '../components/Map';
 import Reserve from '../components/Reserve';
@@ -9,7 +9,7 @@ import History from '../components/History';
 import Profile from '../components/Profile';
 import LogOut from '../components/LogOut';
 
-
+LogBox.ignoreAllLogs();
 const Tab = createBottomTabNavigator();
 
 export default function Tabs() {

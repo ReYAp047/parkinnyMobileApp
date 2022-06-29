@@ -11,6 +11,7 @@ import { db } from '.././Core/Config'
 
 import {Center, NativeBaseProvider } from 'native-base';
 
+LogBox.ignoreAllLogs();
 LogBox.ignoreLogs(['Setting a timer']);
 export default function Profile () {
 

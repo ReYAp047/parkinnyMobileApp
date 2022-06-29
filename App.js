@@ -9,7 +9,9 @@ import LogIn from './components/LogIn';
 import Tabs from './components/Tabs';
 
 import Reserve from './components/Reserve';
-
+import { LogBox } from "react-native";
+ 
+LogBox.ignoreAllLogs();
 
 
 const Stack = createNativeStackNavigator();
