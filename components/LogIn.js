@@ -1,135 +1,311 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useEffect } from 'react';
+import React, {useState } from 'react';
+import { Input, Icon, Stack, Center, NativeBaseProvider } from "native-base";
 
-import * as AuthSession from 'expo-auth-session';
-import jwtDecode from 'jwt-decode';
-import { View, Platform, Text, StyleSheet } from 'react-native';
+import { TouchableHighlight, Alert, Image,  StyleSheet, Text, View } from 'react-native';
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { AlertDialog, Button, Center, NativeBaseProvider } from "native-base";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { db, auth } from '.././Core/Config'
 
-import { useNavigation } from '@react-navigation/native';
 import { LogBox } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 LogBox.ignoreAllLogs();
 
-const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
-const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/authorize";
-
-
-const useProxy = Platform.select({ web: false, default: true });
-const redirectUri = AuthSession.makeRedirectUri({ useProxy });
-
-console.log(redirectUri)  // <-- you will need to add this to your auth0 callbacks / logout configs
-
-let lo =true;
 
 export default function LogIn () { 
-  const [isOpen, setIsOpen] = React.useState(true);
-
-  const onClose = () => setIsOpen(false);
+const navigation = useNavigation();
   
+const [email, setEmail] = useState("");
+const emailChange = text => setEmail(text);
 
-  const cancelRef = React.useRef(null);
-    const [request, result, promptAsync] = AuthSession.useAuthRequest(
-      {
-        redirectUri,
-        clientId: auth0ClientId,
-        // id_token will return a JWT token
-        responseType: 'id_token',
-        // retrieve the user's profile
-        scopes: ['openid', 'profile', 'email'],
-        extraParams: {
-          // ideally, this will be a random value
-          nonce: 'nonce',
-        },
-      },
-      { authorizationEndpoint }
-    );
-    
+const [password, setpassword] = useState("");
+const passwordChange = text => setpassword(text);
 
+const handleCreateAccount = () => {
+  createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    console.log('Account Created!')
+    const user = userCredential.user;
+    console.log(user)
+    global.foo = user['uid']
+    console.log(global.foo)
+    navigation.navigate('Tabs')
+  })
+  .catch(error => {
+    console.log(error)
+    Alert.alert(error.message)
+  })
+}
 
-      useEffect(() => {
-        promptAsync({ useProxy });
-      
-    })
-      
-      if(result ){
-        global.foo = auth0ClientId;
-        lo=false;
-        const navigation = useNavigation();
+const handleSignIn = () => {
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    console.log('Signed In!')
+    const user = userCredential.user;
+    console.log(user)
+    global.foo = user['uid']
+    console.log(global.foo)
+    navigation.navigate('Tabs')
+  })
+  .catch(error => {
+    console.log(error)
+    Alert.alert(error.message)
+  })
+}
 
-        return <NativeBaseProvider>
-                <Center style={styles.container}>
-                  <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
-                    <AlertDialog.Content>
-                      <AlertDialog.CloseButton />
-                      <AlertDialog.Header>Connected successfully</AlertDialog.Header>
-                      <AlertDialog.Body>
-                      Welcome to our application, now you logged In press -- Continue button and you can start.
-                      </AlertDialog.Body>
-                      <AlertDialog.Footer>
-                        <Button.Group space={2}>
-                          <Button colorScheme="success" onPress={() => navigation.navigate("Tabs")}>
-                            Continue
-                          </Button>
-                        </Button.Group>
-                      </AlertDialog.Footer>
-                    </AlertDialog.Content>
-                  </AlertDialog>
-                </Center>
-              </NativeBaseProvider>
-        
-          
-         
-          
+const Example = () => {
+  const [show, setShow] = React.useState(false);
+  return <Stack space={4} w="100%" alignItems="center">
+      <Input w={{
+      base: "90%",
+      md: "25%"
+    }} InputLeftElement={<Icon as={<MaterialIcons name="mail" />} size={5} ml="2" color="muted.400" />} isRequired onChangeText={emailChange} value={email} placeholder="Email" />
+      <Input w={{
+      base: "90%",
+      md: "25%"
+    }} type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />} onChangeText={passwordChange} value={password} placeholder="Password" />
+    </Stack>;
+};
+  return(
+  <NativeBaseProvider>
+    <View style={styles.container}>
 
-        
-        
-      }
-
-      return (
+      <View style={styles.rectangle}>
+        <Center>
+          <Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1650940957/parkinny_1_ur3vi3.png',}} style={styles.logo} /> 
+          <Text style={styles.loginText}>Log in to Parkinny to continue</Text>
+        </Center>
         <View>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-          <Text>
-            You have to log in
-          </Text>
-
-
+          <Example />
+          <Text style={styles.forgotPassword}>Forgot password?</Text>
         </View>
-      
-      );
-  
+
+        <View style={styles.fixToTextt}>
+          <TouchableHighlight
+            style={styles.submitNormal}
+              underlayColor='#fff'
+              onPress={handleSignIn}>
+            <Text style={styles.submitTextBlack}>LOG IN</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.submitOutline}
+              underlayColor='#fff'
+              onPress={handleCreateAccount}>
+            <Text style={styles.submitTextWhite}>REGISTER</Text>
+          </TouchableHighlight>
+      </View>
+
+        <View style={styles.vertical}>
+         <Text style={styles.forgotPassword}>Don't have an account?</Text>
+         <Text style={styles.signUp}>Sign up</Text>
+        </View>
+        <View style={styles.vertical}>
+         <View style={styles.line}/>
+         <Center>
+           <Text style={styles.or}>OR</Text>
+         </Center>
+         <View style={styles.linee}/>
+        </View>
+        <View style={styles.fixToText}>
+        <TouchableHighlight
+                style={styles.submitOutlinee}
+                underlayColor='#fff'
+                onPress={() => this.props.navigation.navigate("LogIn")}>
+                <Center>
+                  <View style={styles.vertical}>
+                    <Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1657983887/google_vyelwp.png',}} style={styles.logoLogin} /> 
+                    <Text style={styles.submitTextWhitee}>Contitune with Google</Text>
+                </View>
+                </Center>
+            </TouchableHighlight>
+        </View>
+        <View style={styles.fixToText}>
+        <TouchableHighlight
+                style={styles.submitOutlinee}
+                underlayColor='#fff'
+                onPress={() => this.props.navigation.navigate("LogIn")}>
+                <Center>
+                  <View style={styles.verticall}>
+                    <Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1657984203/Facebook_logo__square_mh7smo.png',}} style={styles.logoLogin} /> 
+                    <Text style={styles.submitTextWhitee}>Contitune with Facebook</Text>
+                </View>
+                </Center>
+            </TouchableHighlight>
+        </View>
+
+      </View> 
+
+
+    </View>
+    
+  </NativeBaseProvider>
+  )
+
 }
 
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    flex: 1,
+    marginTop: 80, 
+    marginBottom: 50,
+    backgroundColor: "white",
+  },
+  vertical: {
+    flexDirection : "row"
+  },
+  verticall: {
+    flexDirection : "row", 
+    marginLeft: 13
+  },
+  image: {
+    justifyContent: "center",
+    flex: 5,
+  },
+  rectangle: {
+    backgroundColor: "white",
+    flex: 1
+    
+  },
+  fixToText: {
+    marginTop: 25,
+    marginLeft: 18,
+    marginRight: 18,
+  },
+
+  fixToTextt: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  submitOutline: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 45,
+    paddingLeft: 45,
+    backgroundColor: '#000',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+
+  submitOutlinee: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 45,
+    paddingLeft: 45,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+
+  submitTextWhite: {
+    color: '#fff',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+
+  
+
+  submitTextWhitee: {
+    color: '#000',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    fontWeight: 'normal',
+    marginTop: 7,
+    marginLeft: 5
+  },
+
+  forgotPassword: {
+    color: '#000',
+    fontFamily: 'Roboto',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: 18, 
+    marginTop: 5
+  },
+  signUp: {
+    color: '#0062A9',
+    fontFamily: 'Roboto',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: 6, 
+    marginTop: 5
+  },
+
+  or: {
+    color: '#606060',
+    fontFamily: 'Roboto',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: 6, 
+    marginTop: 23
+  },
+  
+  loginText: {
+    color: '#606060',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+    fontSize: 12,
+    fontWeight: 'normal',
+    marginBottom: 20,
+    marginTop: 7
 
   },
+
+  logo: {
+    width: 70,
+    height: 52,
+    marginTop: 50,
+  },
+
+    logoLogin: {
+    width: 30,
+    height: 30,
+  },
+  line: {
+    width: 147,
+    height: 1,
+    backgroundColor: "gray",
+    borderRadius: 10,
+    marginLeft: 20,
+    marginBottom: 5,
+    marginTop: 30
+  },
+
+  linee: {
+    width: 147,
+    height: 1,
+    backgroundColor: "gray",
+    borderRadius: 10,
+    marginLeft: 6,
+    marginBottom: 5,
+    marginTop: 30
+  },
+
+  submitNormal: {
+    marginRight: 5,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 50,
+    paddingLeft: 50,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+
+  submitTextBlack: {
+    color: '#000',
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+
 });
