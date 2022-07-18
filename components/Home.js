@@ -20,13 +20,13 @@ export default class Home extends React.Component{
                   <TouchableHighlight
                      style={styles.submitNormal}
                       underlayColor='#fff'
-                      onPress={() => this.props.navigation.navigate("LogIn")}>
+                      onPress={() => this.props.navigation.navigate("Loading")}>
                     <Text style={styles.submitTextBlack}>LOG IN</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                      style={styles.submitOutline}
                       underlayColor='#fff'
-                      onPress={() => this.props.navigation.navigate("LogIn")}>
+                      onPress={() => this.props.navigation.navigate("Loading")}>
                     <Text style={styles.submitTextWhite}>REGISTER</Text>
                   </TouchableHighlight>
   

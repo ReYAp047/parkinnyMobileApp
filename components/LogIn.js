@@ -13,6 +13,11 @@ LogBox.ignoreAllLogs();
 
 
 export default function LogIn () { 
+  const onWork = () => {
+   
+    Alert.alert("On work!")
+
+  }
 const navigation = useNavigation();
   
 const [email, setEmail] = useState("");
@@ -110,7 +115,7 @@ const Example = () => {
         <TouchableHighlight
                 style={styles.submitOutlinee}
                 underlayColor='#fff'
-                onPress={() => this.props.navigation.navigate("LogIn")}>
+                onPress={onWork}>
                 <Center>
                   <View style={styles.vertical}>
                     <Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1657983887/google_vyelwp.png',}} style={styles.logoLogin} /> 
@@ -123,7 +128,7 @@ const Example = () => {
         <TouchableHighlight
                 style={styles.submitOutlinee}
                 underlayColor='#fff'
-                onPress={() => this.props.navigation.navigate("LogIn")}>
+                onPress={onWork}>
                 <Center>
                   <View style={styles.verticall}>
                     <Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1657984203/Facebook_logo__square_mh7smo.png',}} style={styles.logoLogin} /> 

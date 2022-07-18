@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import * as AuthSession from 'expo-auth-session';
 import { openAuthSessionAsync } from 'expo-web-browser';
-import { TouchableHighlight, Dimensions, Button, Platform, StyleSheet, Text, View } from 'react-native';
+import { TouchableHighlight, Dimensions, Button, Platform, StyleSheet, Text, View, Alert } from 'react-native';
 import Home from './Home';
-
+import { useNavigation } from '@react-navigation/native';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import backImg from '.././assets/Background.jpg'; 
 import { LogBox } from 'react-native';
@@ -15,19 +15,13 @@ const authorizationEndpoint = "https://parkinny-pfe.eu.auth0.com/v2/logout";
 const useProxy = Platform.select({ web: false, default: true });
 const redirectUri = AuthSession.makeRedirectUri({ useProxy }); // <-- must be set in allowed logout urls
 let ses = false;
-export default function LogOut ({navigation}) { 
+export default function LogOut () { 
+  const navigation = useNavigation();
   const logout = async () => {
-    ses=true
    
-    
-    try {
-      await openAuthSessionAsync(`${authorizationEndpoint}?client_id=${auth0ClientId}&returnTo=${redirectUri}`, 'redirectUrl');
-      // handle unsetting your user from store / context / memory
-      console.log("Hello from dec")
-      navigation.navigate('Home')
-    } catch (err) {
-       console.error(err)    
-    }
+    Alert.alert("On work!")
+    this.props.navigation.navigate("Map")
+
   }
       
 
