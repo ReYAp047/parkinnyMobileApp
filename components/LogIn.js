@@ -21,7 +21,6 @@ export default function LogIn () {
 const navigation = useNavigation();
   
 const [email, setEmail] = useState("");
-const emailChange = text => setEmail(text);
 
 const [password, setpassword] = useState("");
 const passwordChange = text => setpassword(text);
@@ -58,19 +57,8 @@ const handleSignIn = () => {
   })
 }
 
-const Example = () => {
-  const [show, setShow] = React.useState(false);
-  return <Stack space={4} w="100%" alignItems="center">
-      <Input w={{
-      base: "90%",
-      md: "25%"
-    }} InputLeftElement={<Icon as={<MaterialIcons name="mail" />} size={5} ml="2" color="muted.400" />} isRequired onChangeText={emailChange} value={email} placeholder="Email" />
-      <Input w={{
-      base: "90%",
-      md: "25%"
-    }} type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />} onChangeText={passwordChange} value={password} placeholder="Password" />
-    </Stack>;
-};
+  const [show, setShow] = useState(false);
+
   return(
   <NativeBaseProvider>
     <View style={styles.container}>
@@ -81,7 +69,16 @@ const Example = () => {
           <Text style={styles.loginText}>Log in to Parkinny to continue</Text>
         </Center>
         <View>
-          <Example />
+        <Stack space={4} w="100%" alignItems="center">
+      <Input w={{
+      base: "90%",
+      md: "25%"
+    }} InputLeftElement={<Icon as={<MaterialIcons name="mail" />} size={5} ml="2" color="muted.400" />} isRequired onChangeText={(val) => setEmail(val)} placeholder="Email" />
+      <Input w={{
+      base: "90%",
+      md: "25%"
+    }} type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />} onChangeText={passwordChange} value={password} placeholder="Password" />
+    </Stack>
           <Text style={styles.forgotPassword}>Forgot password?</Text>
         </View>
 

@@ -21,7 +21,7 @@ export default class App extends React.Component{
   render(){
     return (
       <NavigationContainer >
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false}}>
           <Stack.Group>
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Loading" component={Loading} />

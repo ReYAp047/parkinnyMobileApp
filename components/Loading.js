@@ -22,7 +22,7 @@ export default function Loading () {
               global.foo = user['uid']
             }else{
                 console.log('redirect to login');
-                navigation.navigate("Tabs")
+                navigation.navigate("LogIn")
             }
           });
     
