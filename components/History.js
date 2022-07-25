@@ -17,8 +17,6 @@ import {Center, NativeBaseProvider } from 'native-base';
 import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs();
 
-
-
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
   <Image source={{uri:"https://res.cloudinary.com/dhncrtnjp/image/upload/v1654534711/male_man_people_person_avatar_white_tone_icon_159363_ebtiac_1_vha7zo.png",}} style={{width: 60, height: 60}} />
@@ -28,7 +26,15 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
    <View style={{marginTop:5 ,flexDirection: "row", justifyContent: 'space-between',}}>
     <Text style={[styles.date, textColor]}>{item.Date + "/" + item.Month + "/" + item.Year}</Text>
-    <Text style={[styles.time, textColor]}>{"10:00"}</Text>
+    {item.One? <Text style={[styles.time, textColor]}>{"06:00"}</Text>: 
+    item.Tow? <Text style={[styles.time, textColor]}>{"08:00"}</Text>: 
+    item.Tow? <Text style={[styles.time, textColor]}>{"10:00"}</Text>: 
+    item.Three? <Text style={[styles.time, textColor]}>{"12:00"}</Text>: 
+    item.Four? <Text style={[styles.time, textColor]}>{"14:00"}</Text>: 
+    item.Five? <Text style={[styles.time, textColor]}>{"16:00"}</Text>: 
+    item.Seven? <Text style={[styles.time, textColor]}>{"18:00"}</Text>: 
+    item.Eight? <Text style={[styles.time, textColor]}>{"20:00"}</Text>: null }
+    
    </View>
 
   </View>
