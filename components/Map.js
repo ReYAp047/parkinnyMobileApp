@@ -1,4 +1,6 @@
-import { TouchableOpacity, SafeAreaView, Button, Dimensions , Image,  StyleSheet, Text, View, AppRegistry } from 'react-native';
+import { Autocomplete, SafeAreaView, Dimensions , Image,  StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
+
+
 import MapView from 'react-native-maps';
 import React, { useCallback, useRef, useMemo, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -10,6 +12,11 @@ LogBox.ignoreAllLogs();
 
 
 export default function Map () {
+  const [input, setInput] = useState("");
+
+  const allVilles = ['Tunis', 'Ariana', 'La Marsa', 'Sidi Boussaid', 'Lac1', 'Lac 2'];
+  const [villes, srtVille] = useState(allVilles);
+  const [searchData, setSearchData] = useState();
   state = {
     markers: [],
     coordinates: [
@@ -65,8 +72,8 @@ export default function Map () {
     this._map.animateToRegion({
       latitude: location.latitude,
       longitude: location.longitude,
-      //latitudeDelta: 0.09,
-      //longitudeDelta: 0.06
+      latitudeDelta: 0.09,
+      longitudeDelta: 0.06
       
     });
 
@@ -82,10 +89,20 @@ export default function Map () {
     </View>
 
 
-
+  
+  const onChangeText = async (text) =>{
+    setInput(text) 
+    //if (text.length ===0) return setSearchData([]);
+    //if (text.length > 2){
+      //const result = villes.filter(word => word.indexOf(text) > -1);
+      //if (result.length > 0)
+       //setSearchData(result)
+    //}
+  }
     return(
-        <SafeAreaView style={styles.container}>
- <View style={styles.container}>
+  <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+
          <MapView
             style={styles.map}
             showsUserLocation= {true}
@@ -116,7 +133,7 @@ export default function Map () {
                     ))
                   }
                    </MapView> 
-                  
+
                    <Carousel
                       ref={(c) => { this._carousel = c; }}
                      data={this.state.coordinates}
@@ -127,6 +144,21 @@ export default function Map () {
                      removeClippedSubviews={false}
                      onSnapToItem={(index) => this.onCarouselItemChange(index)}
                        /> 
+
+
+
+                     <Autocomplete
+                        placeholder = "Find location"
+                        data={villes}
+                        value={input}
+                        onChangeText={onChangeText}
+                        style={styles.CustomTextInput}
+                        flatListProps={{
+                          keyExtractor: (_, idx) => idx,
+                          renderItem: ({ item }) => <Text>{item}</Text>,
+                        }}
+                      />
+                  
        </View>
 
       </SafeAreaView>
@@ -172,5 +204,18 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 22,
       alignSelf: 'center'
+    },
+
+    CustomTextInput: {
+          height: 40,
+          width: 200,
+          borderRadius: 5,
+          backgroundColor: "white",
+          position: 'absolute',
+          top: 0,
+          zIndex: 1,
+          marginTop: 30 
     }
+
+
 });

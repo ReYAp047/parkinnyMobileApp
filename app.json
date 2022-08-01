@@ -1,9 +1,8 @@
 {
   "expo": {
     "name": "ParkinnyApp",
-    "slug": "ParkinnyApp",
-    "owner": "dali47",
-    "version": "1.0.0",
+    "slug": "exparkinnyapp",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -18,6 +17,8 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.exparkinnyapp.ParkinnyApp",
+      "buildNumber": "1.0.3",
       "supportsTablet": true,
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "The app accesses your photos to let you use them.",
@@ -36,7 +37,8 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.dali47.ParkinnyApp"
+      "package": "com.exparkinnyapp.ParkinnyApp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

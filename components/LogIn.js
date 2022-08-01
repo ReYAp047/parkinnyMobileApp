@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {useState } from 'react';
 import { Input, Icon, Stack, Center, NativeBaseProvider } from "native-base";
 
@@ -28,12 +29,11 @@ const passwordChange = text => setpassword(text);
 const handleCreateAccount = () => {
   createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    console.log('Account Created!')
+    Alert.alert('Account Created!')
     const user = userCredential.user;
-    console.log(user)
     global.foo = user['uid']
-    console.log(global.foo)
     navigation.navigate('Tabs')
+
   })
   .catch(error => {
     console.log(error)
@@ -44,11 +44,9 @@ const handleCreateAccount = () => {
 const handleSignIn = () => {
   signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    console.log('Signed In!')
+    Alert.alert('Signed In!')
     const user = userCredential.user;
-    console.log(user)
     global.foo = user['uid']
-    console.log(global.foo)
     navigation.navigate('Tabs')
   })
   .catch(error => {
