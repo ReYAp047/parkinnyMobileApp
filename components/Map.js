@@ -1,6 +1,4 @@
-import { Autocomplete, SafeAreaView, Dimensions , Image,  StyleSheet, Text, View, AppRegistry, TextInput } from 'react-native';
-
-
+import { TouchableOpacity, SafeAreaView, TextInput, Dimensions , Image,  StyleSheet, Text, View, AppRegistry } from 'react-native';
 import MapView from 'react-native-maps';
 import React, { useCallback, useRef, useMemo, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -14,25 +12,26 @@ LogBox.ignoreAllLogs();
 export default function Map () {
   const [input, setInput] = useState("");
 
-  const allVilles = ['Tunis', 'Ariana', 'La Marsa', 'Sidi Boussaid', 'Lac1', 'Lac 2'];
+  const allVilles = ['Tunis', 'Ariana', 'Kelibia', 'Mahdia'];
   const [villes, srtVille] = useState(allVilles);
   const [searchData, setSearchData] = useState();
+  const  coordinate = [
+    {name: 'Parking1',names:'parking1',ville:'Mahdia', latitude: 35.50311, longitude: 11.05604, image: require('../assets/parking3.jpg')},
+    {name: 'Parking2', names:'parking2',ville:'Mahdia', latitude: 35.50599, longitude: 11.05698, image: require('../assets/parking3.jpg')},
+    {name: 'Parking3',names:'parking3',ville:'Mahdia',  latitude: 35.50811, longitude: 11.05442, image: require('../assets/parking3.jpg')},
+    {name: 'Parking4',names:'parking4',ville:'Mahdia',  latitude: 35.50613, longitude: 11.05989, image: require('../assets/parking3.jpg')},
+    {name: 'Parking5',names:'parking5',ville:'Mahdia', latitude: 35.50465, longitude: 11.05935, image: require('../assets/parking3.jpg')},
+    {name: 'Parking6',names:'parking6',ville:'Mahdia', latitude: 35.50128, longitude: 11.05989, image: require('../assets/parking3.jpg')},
+    {name: 'Parking7',names:'Tunis-Carthage International Airport',ville:'Tunis', latitude: 36.8452, longitude: 10.1647, image: require('../assets/parking3.jpg')},
+    {name: 'Parking8', names:'AFRICA MALL',ville:'Ariana', latitude: 36.85848527696623, longitude: 10.218306272963153 , image: require('../assets/parking3.jpg')},
+    {name: 'Parking9',names:'Klibia Parking',ville:'Kelibia',  latitude: 36.85068443316672, longitude: 11.05442, image: require('../assets/parking3.jpg')},
+    {name: 'Parking10',names:'Parking Le Palmarium',ville:'Tunis',  latitude: 36.79860671747816, longitude: 10.18072795384903, image: require('../assets/parking3.jpg')},
+    {name: 'Parking11',names:'Parking, Tunis',ville:'Tunis', latitude: 36.7981669380127, longitude: 10.164887198025717, image: require('../assets/parking3.jpg')},
+    {name: 'Parking12',names:'Parking lot',ville:'Tunis', latitude: 36.83824559295232, longitude: 10.186082575839222, image: require('../assets/parking3.jpg')}, 
+  ]
+  const [coordinates, setCoordinates] = useState(coordinate);
   state = {
     markers: [],
-    coordinates: [
-      {name: 'Parking1',names:'parking1', latitude: 35.50311, longitude: 11.05604, image: require('../assets/parking3.jpg')},
-      {name: 'Parking2', names:'parking2', latitude: 35.50599, longitude: 11.05698, image: require('../assets/parking3.jpg')},
-      {name: 'Parking3',names:'parking3',  latitude: 35.50811, longitude: 11.05442, image: require('../assets/parking3.jpg')},
-      {name: 'Parking4',names:'parking4',  latitude: 35.50613, longitude: 11.05989, image: require('../assets/parking3.jpg')},
-      {name: 'Parking5',names:'parking5', latitude: 35.50465, longitude: 11.05935, image: require('../assets/parking3.jpg')},
-      {name: 'Parking6',names:'parking6', latitude: 35.50128, longitude: 11.05989, image: require('../assets/parking3.jpg')},
-      {name: 'Parking7',names:'Tunis-Carthage International Airport', latitude: 36.8452, longitude: 10.1647, image: require('../assets/parking3.jpg')},
-      {name: 'Parking8', names:'AFRICA MALL', latitude: 36.85848527696623, longitude: 10.218306272963153 , image: require('../assets/parking3.jpg')},
-      {name: 'Parking9',names:'Cite Monplaisir et Borgel',  latitude: 36.85068443316672, longitude: 11.05442, image: require('../assets/parking3.jpg')},
-      {name: 'Parking10',names:'Parking Le Palmarium',  latitude: 36.79860671747816, longitude: 10.18072795384903, image: require('../assets/parking3.jpg')},
-      {name: 'Parking11',names:'Parking, Tunis', latitude: 36.7981669380127, longitude: 10.164887198025717, image: require('../assets/parking3.jpg')},
-      {name: 'Parking12',names:'Parking lot', latitude: 36.83824559295232, longitude: 10.186082575839222, image: require('../assets/parking3.jpg')}, 
-    ]
   }
   locateCurrentPosition = () => {
     Geolocation.getCurrentPosition(
@@ -54,13 +53,13 @@ export default function Map () {
   }
  
   onCarouselItemChange = (index) => {
-    let location = this.state.coordinates[index];
+    let location = coordinates[index];
 
     this._map.animateToRegion({
       latitude: location.latitude,
       longitude: location.longitude,
-      //latitudeDelta: 0.09,
-      //longitudeDelta: 0.035
+      latitudeDelta: 0.09,
+      longitudeDelta: 0.035
     })
 
     this.state.markers[index].showCallout()
@@ -92,13 +91,52 @@ export default function Map () {
   
   const onChangeText = async (text) =>{
     setInput(text) 
-    //if (text.length ===0) return setSearchData([]);
-    //if (text.length > 2){
-      //const result = villes.filter(word => word.indexOf(text) > -1);
-      //if (result.length > 0)
-       //setSearchData(result)
-    //}
+    if (text.length == 0){
+      setCoordinates(coordinate)
+      return setSearchData([]);
+    } 
+    if (text.length > 2){
+      const result = villes.filter(word => word.indexOf(text) > -1);
+      if (result.length > 0)
+       setSearchData(result)
+       console.log(searchData);
+    }else{
+      setCoordinates(coordinate)
+    }
   }
+
+  const onPressBlur = async () =>{
+    const parkingSeached = coordinates
+
+
+    let parkingResult = [];
+    for (let i = 0; i < parkingSeached.length; i++) 
+    {
+        if (parkingSeached[i].ville === searchData[0]) 
+        {
+          parkingResult.push(parkingSeached[i]);
+        }
+    }
+
+    if(parkingResult.length > 0)
+     {
+      setCoordinates(parkingResult)
+      this._map.animateToRegion({
+        latitude: parkingResult[0].latitude,
+        longitude: parkingResult[0].longitude,
+        latitudeDelta: 0.09,
+        longitudeDelta: 0.035
+      })
+    }
+
+
+console.log(parkingResult);
+
+console.log(b);
+
+  }
+
+  
     return(
   <SafeAreaView style={styles.container}>
     <View style={styles.container}>
@@ -111,7 +149,7 @@ export default function Map () {
             initialRegion={this.state.initialPosition} 
                  >
                  {
-                    this.state.coordinates.map((marker , index) => (
+                    coordinates.map((marker , index) => (
                       <Marker
                       key={marker.name}
                       ref={ref => this.state.markers[index] = ref}
@@ -136,7 +174,7 @@ export default function Map () {
 
                    <Carousel
                       ref={(c) => { this._carousel = c; }}
-                     data={this.state.coordinates}
+                     data={coordinates}
                      containerCustomStyle={styles.carousel}
                      renderItem={this.renderCarouselItem}
                      sliderWidth={Dimensions.get('window').width}
@@ -145,19 +183,13 @@ export default function Map () {
                      onSnapToItem={(index) => this.onCarouselItemChange(index)}
                        /> 
 
-
-
-                     <Autocomplete
-                        placeholder = "Find location"
-                        data={villes}
-                        value={input}
-                        onChangeText={onChangeText}
-                        style={styles.CustomTextInput}
-                        flatListProps={{
-                          keyExtractor: (_, idx) => idx,
-                          renderItem: ({ item }) => <Text>{item}</Text>,
-                        }}
-                      />
+                    <TextInput
+                      placeholder = "Find location"
+                      value = {input}
+                      onChangeText = {onChangeText}
+                      onBlur = {onPressBlur}
+                      style={styles.CustomTextInput}>
+                     </TextInput>
                   
        </View>
 
