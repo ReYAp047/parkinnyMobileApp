@@ -1,8 +1,9 @@
 import { TouchableOpacity, SafeAreaView, TextInput, Dimensions , Image,  StyleSheet, Text, View, AppRegistry } from 'react-native';
 import MapView from 'react-native-maps';
-import React, { useCallback, useRef, useMemo, useState } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
+import * as Location from 'expo-location'
 import { Marker ,PROVIDER_GOOGLE,Callout} from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
 import { LogBox } from 'react-native';
@@ -11,7 +12,7 @@ LogBox.ignoreAllLogs();
 
 export default function Map () {
   const [input, setInput] = useState("");
-
+  const [location, setLocation] = useState({});
   const allVilles = ['Tunis', 'Ariana', 'Kelibia', 'Mahdia'];
   const [villes, srtVille] = useState(allVilles);
   const [searchData, setSearchData] = useState();
@@ -35,8 +36,8 @@ export default function Map () {
   }
   locateCurrentPosition = () => {
     Geolocation.getCurrentPosition(
-      position => {
-        console.log(JSON.stringify(position));
+    position => {
+    console.log(JSON.stringify(position));
 
         let initialPosition = {
           latitude: position.coords.latitude,
@@ -50,6 +51,8 @@ export default function Map () {
       error => Alert.alert(error.message),
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
     )
+     
+
   }
  
   onCarouselItemChange = (index) => {
@@ -137,6 +140,23 @@ console.log(b);
   }
 
   
+  useEffect(() => {
+    (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            return;
+        }
+
+        let locationn = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+            enableHighAccuracy: true,
+            timeInterval: 5
+        });
+        setLocation(locationn);
+        console.log(location);
+    })();
+}, []);
+  
     return(
   <SafeAreaView style={styles.container}>
     <View style={styles.container}>
@@ -207,6 +227,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 3,
+    marginTop: 30
   },
   map: {
      width: Dimensions.get('window').width,
