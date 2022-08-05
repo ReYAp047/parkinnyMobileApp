@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox } from 'react-native';
 import React, { useState } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-
+import * as WebBrowser from 'expo-web-browser';
 import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
 
 import { db } from '.././Core/Config'
@@ -159,53 +159,90 @@ export default function Reserve ({navigation}) {
 
 
   const [userDoc, setUserDoc] = useState(null)
+
   const Create = () =>{
 
-    //ceating a random id for the reservation
-    var id = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 16; i++)
-      id += possible.charAt(Math.floor(Math.random() * possible.length));
+    fetch('https://sandbox.paymee.tn/api/v1/payments/create', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Token 331b641dd514f44a9095f0caa3ab4c80e1a7297d'
+      },
+      body: JSON.stringify({vendor: 2384, amount: parkingprice+washingprice, note: "Reservation #1000132"})
+      })
+      .then(res => {
+        console.log(res.status);
+        console.log(res.headers);
+        return res.json();
+      })
+      .then(
+        (result) => {
+          let url = "https://sandbox.paymee.tn/gateway/" + result.data['token']
+          let res = WebBrowser.openBrowserAsync(url);
+          console.log(JSON.stringify(res));   
+          
+
+
+//ceating a random id for the reservation
+var id = "";
+var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+for (var i = 0; i < 16; i++)
+  id += possible.charAt(Math.floor(Math.random() * possible.length));
+
+const myDoc = doc(db, "Reservation", id)
+
+var date = new Date().getDate(); //To get the Current Date
+var month = new Date().getMonth() + 1; //To get the Current Month
+var year = new Date().getFullYear(); //To get the Current Year
+
+
+const docData = {
+  "id" : id,
+  "ClientID": global.foo,
+  "First_Matricule": firstmat,
+  "Last_Matricule": lastmat,
+  "Phone_Number": tel,
+  "Parking": global.loc,
+  "TotalPrice": parkingprice+washingprice,
+  "Date": date,
+  "Month": month,
+  "Year": year,
+  "One": one,
+  "Tow": tow,
+  "Three": three,
+  "Four": four,
+  "Five": five,
+  "Six": six,
+  "Seven": seven,
+  "Eight": eight,
+
+}
+
+setDoc(myDoc, docData)
+
+.then(()=>{
+  alert("Reservation booked!")
+})
+.catch((error)=>{
+  alert(error.message)
+})
+
+navigation.navigate('Profile')
+
+
+
+
+        },
+        (error) =>{
+          console.log(error);
+        }
+      )
+
+
+      
+      
     
-    const myDoc = doc(db, "Reservation", id)
 
-    var date = new Date().getDate(); //To get the Current Date
-    var month = new Date().getMonth() + 1; //To get the Current Month
-    var year = new Date().getFullYear(); //To get the Current Year
-
-
-    const docData = {
-      "id" : id,
-      "ClientID": global.foo,
-      "First_Matricule": firstmat,
-      "Last_Matricule": lastmat,
-      "Phone_Number": tel,
-      "Parking": global.loc,
-      "TotalPrice": parkingprice+washingprice,
-      "Date": date,
-      "Month": month,
-      "Year": year,
-      "One": one,
-      "Tow": tow,
-      "Three": three,
-      "Four": four,
-      "Five": five,
-      "Six": six,
-      "Seven": seven,
-      "Eight": eight,
-
-    }
-
-    setDoc(myDoc, docData)
-
-    .then(()=>{
-      alert("Reservation booked!")
-   })
-    .catch((error)=>{
-      alert(error.message)
-    })
-
-    navigation.navigate('Profile')
   }
 
     return(
