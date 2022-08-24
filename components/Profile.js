@@ -129,7 +129,7 @@ export default function Profile () {
       setCarFistNumber(userDoc.First_Matricule)
       setCarLastNumber(userDoc.Last_Matricule)
       setUserNumber(userDoc.Phone_Number)
-      setImage(userDoc.Image)
+      //setImage(userDoc.Image)
 
     }else{
       setUserName("Foulen Ben Foulen")
@@ -147,15 +147,18 @@ export default function Profile () {
     <View style={styles.container}>
     <NativeBaseProvider>
           <View>
-          <Center>
-    <TouchableOpacity onPress={pickImage}>
-        {image == '' ?
-        <Image style={styles.image} source={require('../assets/upload.png')} /> 
-        :
-        <Image style={styles.image} source={{uri : image}} /> 
-        } 
-        </TouchableOpacity>
+          <Center style={{marginTop : 70}}>
+        <Text style={styles.input}> My QR-Code </Text>
         </Center>
+
+        <Center style={{marginBottom : 20}}>
+        <QRCode
+          value={global.foo}
+          size={250}
+          bgColor='black'
+          fgColor='white'/>
+        </Center>
+
 
 
         <View style={styles.boxView}>
@@ -222,17 +225,7 @@ export default function Profile () {
 
 
       </View>
-        <Center>
-        <Text style={styles.input}> Reservation code </Text>
-        </Center>
 
-        <Center>
-        <QRCode
-          value={global.foo}
-          size={250}
-          bgColor='black'
-          fgColor='white'/>
-        </Center>
           
       </NativeBaseProvider>
     </View>
@@ -406,3 +399,14 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
 });
+
+
+/*          <Center>
+<TouchableOpacity onPress={pickImage}>
+{image == '' ?
+<Image style={styles.image} source={require('../assets/upload.png')} /> 
+:
+<Image style={styles.image} source={{uri : image}} /> 
+} 
+</TouchableOpacity>
+</Center> */

@@ -17,11 +17,11 @@ export default function Tabs() {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Map" component={Map} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1650120729/map_xjciba.png',}} style={{width: 31, height: 31}} />)}}/>
-        <Tab.Screen name="History" component={History} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1656427258/history_vgv0fb.png',}} style={{width: 38, height: 38, opacity: 0.7}} />)}}/>
-        <Tab.Screen name="Reserve" component={Reserve} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1654087487/reserver_hdpvl1.png',}} style={{width: 60, height: 30}} />)}}/>
-        <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1650121467/user_avatar_profile_person_account_icon_197530_echqw3.png',}} style={{width: 40, height: 40}} />)}}/>
-        <Tab.Screen name="LogOut" component={LogOut} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1650120729/logout-2032031-1713022_xokf1v.png',}} style={{width: 40, height: 40}} />)}}/>
+        <Tab.Screen name="Map" component={Map} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661297441/shopping_map_route_placeholder_shop_marketplace_icon_225147_1_lsajtt.png',}} style={{width: 31, height: 31}} />)}}/>
+        <Tab.Screen name="History" component={History} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/shoppaymentorderbuy-03_icon-icons.com_73859_owirp3.png',}} style={{width: 30, height: 30}} />)}}/>
+        <Tab.Screen name="Reserve" component={Reserve} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/shoppaymentorderbuy-04_icon-icons.com_73886_buijs0.png',}} style={{width: 32, height: 32}} />)}}/>
+        <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/qr_code_icon_146891_c9tdqn.png',}} style={{width: 30, height: 30}} />)}}/>
+        <Tab.Screen name="LogOut" component={LogOut} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661297440/systemshutdown_103390_urgryg.png',}} style={{width: 30, height: 30}} />)}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );

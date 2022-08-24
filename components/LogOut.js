@@ -20,7 +20,6 @@ export default function LogOut () {
   const logout = async () => {
    
     Alert.alert("On work!")
-    this.props.navigation.navigate("Map")
 
   }
       

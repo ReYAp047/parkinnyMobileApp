@@ -19,7 +19,7 @@ LogBox.ignoreAllLogs();
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-  <Image source={{uri:"https://res.cloudinary.com/dhncrtnjp/image/upload/v1654534711/male_man_people_person_avatar_white_tone_icon_159363_ebtiac_1_vha7zo.png",}} style={{width: 60, height: 60}} />
+  <Image source={{uri:"https://res.cloudinary.com/dhncrtnjp/image/upload/v1661297560/LogoP_ugwynb.png",}} style={{width: 63, height: 60,}} />
 
   <View>
    <Text style={[styles.title, textColor]}>{item.Parking.name}</Text>
@@ -44,18 +44,26 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
 export default function History() {
 
-
+  const createTwoButtonAlert = () =>
+  Alert.alert('Alert Title', 'My Alert Msg', [
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    { text: 'OK', onPress: () => console.log('OK Pressed') },
+  ]);
 
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? '#53A7B2' : '#fff';
     const color = item.id === selectedId ? 'white' : 'black';
-    item.id === selectedId ? console.log(item.id) : console.log("ff");
+    item.id === selectedId ? createTwoButtonAlert : console.log("ff");
     return (
       <Item
         item={item}
-        onPress={() => setSelectedId(item.id)}
+        //onPress={() => setSelectedId(item.id)}
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
       />
@@ -77,7 +85,7 @@ export default function History() {
 
     querySnapshot.forEach((doc) => {
       INFO.push(doc.data())
-      console.log(INFO);
+      //console.log(INFO);
     });
 
     setDATA(INFO)

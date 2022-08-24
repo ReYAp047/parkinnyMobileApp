@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import * as WebBrowser from 'expo-web-browser';
 import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
@@ -21,7 +21,11 @@ export default function Reserve ({navigation}) {
 
     let [washing, setWashing] = useState(false)
 
-
+    let [carFistNumber, setCarFistNumber] = useState(null)
+    let [carLastNumber, setCarLastNumber] = useState(null)
+    let [userNumber, setUserNumber] = useState(null)
+    //storing user info
+    let [userDoc, setUserDoc] = useState(null)
   
     const [number,setNumber] = useState("");
     
@@ -31,6 +35,9 @@ export default function Reserve ({navigation}) {
 
     let [parkingprice, setParkingprice] = useState(0) 
     let [washingprice, setWashingprice] = useState(0) 
+
+    let [parkingName, setParkingName] = useState(null)
+    let [parkingInfo, setParkingInfo] = useState(null)
 
     
   
@@ -155,10 +162,6 @@ export default function Reserve ({navigation}) {
 
 
 
-  
-
-
-  const [userDoc, setUserDoc] = useState(null)
 
   const Create = () =>{
 
@@ -202,7 +205,7 @@ const docData = {
   "First_Matricule": firstmat,
   "Last_Matricule": lastmat,
   "Phone_Number": tel,
-  "Parking": global.loc,
+  "Parking": parkingInfo,
   "TotalPrice": parkingprice+washingprice,
   "Date": date,
   "Month": month,
@@ -239,11 +242,50 @@ navigation.navigate('Profile')
       )
 
 
-      
-      
+
     
 
   }
+
+  const Read = () =>{
+    console.log("azefazefzef");
+
+    var id = global.foo;
+
+    const myDoc = doc(db, "Client", id)
+
+    getDoc(myDoc)
+    //success
+    .then((snapshot)=>{
+      if(snapshot.exists){
+        setUserDoc(snapshot.data())
+      }else{
+        alert("No old Client information found!")
+      }
+      
+   })
+   //failed
+    .catch((error)=>{
+      alert(error.message)
+    })
+  }
+
+  useEffect(() => {
+    Read()
+    
+    setParkingName (global.loc.names)
+    setParkingInfo (global.loc)
+    if(userDoc){
+      setCarFistNumber(userDoc.First_Matricule)
+      setCarLastNumber(userDoc.Last_Matricule)
+      setUserNumber(userDoc.Phone_Number)
+
+    }else{
+      setCarFistNumber("000")
+      setCarLastNumber("9999")
+      setUserNumber("xxxxxxxx")
+   }
+  });
 
     return(
       <SafeAreaView style={styles.container}>
@@ -254,9 +296,9 @@ navigation.navigate('Profile')
                     <View style={styles.rowStyle}>
                       <Image
                         style={styles.tinyLogo}
-                        source={{  uri: 'https://res.cloudinary.com/dhncrtnjp/image/upload/v1650940957/parkinny_1_ur3vi3.png',  }}/>  
+                        source={{  uri: 'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661297560/LogoP_ugwynb.png',  }}/>  
                       <View style={styles.prices}>
-                        <Heading size="sm" style={styles.headerStyle}>Parkinny prices</Heading>
+                        <Heading size="sm" style={styles.headerStyle}>{parkingName}</Heading>
                         <Text fontSize="xs">3dt/hour</Text>
                       </View>
                   </View>
@@ -265,7 +307,7 @@ navigation.navigate('Profile')
                      <Heading size="xs" style={styles.serviceHeader}>Choose your reservation Hours</Heading>
                      <View style={styles.rowTimeStyle}>
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: one ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: one ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeOne}
                            >
@@ -273,21 +315,21 @@ navigation.navigate('Profile')
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: tow ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: tow ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeTow}>
                            <Text style={styles.submitTextWhite}>08-10</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: three ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: three ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeThree}>
                            <Text style={styles.submitTextWhite}>10-12</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: four ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: four ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeFour}>
                            <Text style={styles.submitTextWhite}>12-14</Text>
@@ -297,27 +339,27 @@ navigation.navigate('Profile')
 
                      <View style={styles.rowTimeStyle}>
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: five ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: five ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeFive}>
                            <Text style={styles.submitTextWhite}>14-16</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: six ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: six ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeSix}>
                            <Text style={styles.submitTextWhite}>16-18</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: seven ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: seven ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeSeven}>
                            <Text style={styles.submitTextWhite}>18-20</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: eight ? 'blue' : '#D4D3D3' }]}
+                           style={[styles.submitNormal, { backgroundColor: eight ? '#1f4a9b' : '#D4D3D3' }]}
                            underlayColor='#E9E9E9'
                            onPress={selectTimeEight}>
                            <Text style={styles.submitTextWhite}>20-22</Text>
@@ -329,7 +371,7 @@ navigation.navigate('Profile')
                      <Heading size="xs" style={styles.serviceHeader}>Choose an extra service if you want</Heading>
                      <View style={styles.rowTimeStyle}>
                       <TouchableHighlight
-                        style={[styles.submitService, { backgroundColor: washing ? 'blue' : '#D4D3D3' }]}
+                        style={[styles.submitService, { backgroundColor: washing ? '#1f4a9b' : '#D4D3D3' }]}
                         underlayColor='#E9E9E9'
                         onPress={selectWashing}>
                         <Text style={styles.submitTextWhite}>Washing car</Text>
@@ -344,7 +386,7 @@ navigation.navigate('Profile')
                           <Text style={styles.textRegistration}>Vehicle registration</Text>
                           <View style={styles.carNumberBox}>
                             <TextInput
-                              placeholder={'000'}
+                              placeholder={carFistNumber}
                               maxLength={3}
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
@@ -354,7 +396,7 @@ navigation.navigate('Profile')
                             />
                             <Text style={styles.carNumberText}>تونس</Text>
                             <TextInput
-                              placeholder={'9999'}
+                              placeholder={carLastNumber}
                               maxLength={4}
                               placeholderTextColor={'white'}
                               style={styles.paragraph}
@@ -372,7 +414,7 @@ navigation.navigate('Profile')
                           <Text style={styles.phoneCountry}>+216</Text>
                           <View style={styles.phoneNumber}>
                               <TextInput
-                              placeholder={'xxxxxxxx'}
+                              placeholder={userNumber}
                               maxLength={8}
                               minLength={8}
                               placeholderTextColor={'black'}
@@ -464,8 +506,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   tinyLogo: {
-    width: 100,
-    height: 74,
+    width: 120,
+    height: 94,
     marginLeft: 30,
   },
   phoneIcon: {

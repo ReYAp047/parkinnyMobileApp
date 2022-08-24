@@ -180,7 +180,7 @@ console.log(b);
 }, []);
   
     return(
-  <SafeAreaView style={styles.container}>
+  <SafeAreaView style={styles.safeV}>
     <View style={styles.container}>
 
          <MapView
@@ -243,6 +243,10 @@ console.log(b);
 
 
 const styles = StyleSheet.create({
+  safeV :{
+    flex: 1,
+    marginTop: 10
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -261,10 +265,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingRight: 5,
     paddingLeft: 5,
-    backgroundColor: '#025bf5',
+    backgroundColor: '#53A7B2',
     borderRadius: 3,
     borderWidth: 1,
-    borderColor: '#025bf5',
+    borderColor: '#53A7B2',
   },
   submitTextWhite: {
     color: '#fff',
