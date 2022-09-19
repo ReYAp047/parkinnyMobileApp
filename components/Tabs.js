@@ -19,9 +19,9 @@ export default function Tabs() {
       <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name="Map" component={Map} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661297441/shopping_map_route_placeholder_shop_marketplace_icon_225147_1_lsajtt.png',}} style={{width: 31, height: 31}} />)}}/>
         <Tab.Screen name="History" component={History} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/shoppaymentorderbuy-03_icon-icons.com_73859_owirp3.png',}} style={{width: 30, height: 30}} />)}}/>
-        <Tab.Screen name="Reserve" component={Reserve} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/shoppaymentorderbuy-04_icon-icons.com_73886_buijs0.png',}} style={{width: 32, height: 32}} />)}}/>
+        <Tab.Screen name="Reserve" component={Reserve} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1663605504/16credit-card_102121_vos9bn.png',}} style={{width: 32, height: 32}} />)}}/>
         <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/qr_code_icon_146891_c9tdqn.png',}} style={{width: 30, height: 30}} />)}}/>
-        <Tab.Screen name="LogOut" component={LogOut} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661297440/systemshutdown_103390_urgryg.png',}} style={{width: 30, height: 30}} />)}}/>
+        <Tab.Screen name="Wallet" component={LogOut} options={{tabBarIcon: () => (<Image source={{uri:'https://res.cloudinary.com/dhncrtnjp/image/upload/v1661299487/shoppaymentorderbuy-04_icon-icons.com_73886_buijs0.png',}} style={{width: 30, height: 30}} />)}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
