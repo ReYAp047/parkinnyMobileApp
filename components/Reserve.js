@@ -1,16 +1,69 @@
 import { StatusBar } from 'expo-status-bar';
-import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox } from 'react-native';
+import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox, Button } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import * as WebBrowser from 'expo-web-browser';
 import { Heading,Text , Center, NativeBaseProvider } from 'native-base';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { db } from '.././Core/Config'
 
 LogBox.ignoreAllLogs();
 export default function Reserve ({navigation}) {
 
-    let [one, setOne] = useState(false)
+  //Date code 
+  const [dateText, setDateText] = useState("Until");
+  const [dateTextStart, setDateTextStart] = useState("Starting Date");
+  const [date, setDate] = useState(new Date());
+  const [dateStart, setDateStart] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [showStart, setShowStart] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+    setDateText(date.toLocaleString())
+  };
+
+  const onChangeStart = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShowStart(false);
+    setDateStart(currentDate);
+    setDateTextStart(dateStart.toLocaleString())
+  };
+
+  const showMode = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShow(true);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
+  const showModeStart = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShowStart(true);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+  const showTimepickerStart = () => {
+    showModeStart('time');
+  };
+
+
+  //***************** */
+
+    /*let [one, setOne] = useState(false)
     let [tow, setTow] = useState(false)
     let [three, setThree] = useState(false)
     let [four, setFour] = useState(false)
@@ -18,7 +71,8 @@ export default function Reserve ({navigation}) {
     let [six, setSix] = useState(false) 
     let [seven, setSeven] = useState(false)
     let [eight, setEight] = useState(false)
-
+    */
+   
     let [washing, setWashing] = useState(false)
 
     let [carFistNumber, setCarFistNumber] = useState(null)
@@ -41,7 +95,7 @@ export default function Reserve ({navigation}) {
 
     
   
-
+/*
     const selectTimeOne = () =>{
       
       if(one){
@@ -130,6 +184,8 @@ export default function Reserve ({navigation}) {
       }        
     }
 
+    */
+
     const selectWashing = () =>{
       
       if(washing){
@@ -164,27 +220,7 @@ export default function Reserve ({navigation}) {
 
 
   const Create = () =>{
-
-    fetch('https://sandbox.paymee.tn/api/v1/payments/create', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Token 331b641dd514f44a9095f0caa3ab4c80e1a7297d'
-      },
-      body: JSON.stringify({vendor: 2384, amount: parkingprice+washingprice, note: "Reservation #1000132"})
-      })
-      .then(res => {
-        console.log(res.status);
-        console.log(res.headers);
-        return res.json();
-      })
-      .then(
-        (result) => {
-          let url = "https://sandbox.paymee.tn/gateway/" + result.data['token']
-          let res = WebBrowser.openBrowserAsync(url);
-          console.log(JSON.stringify(res));   
           
-
 
 //ceating a random id for the reservation
 var id = "";
@@ -194,10 +230,11 @@ for (var i = 0; i < 16; i++)
 
 const myDoc = doc(db, "Reservation", id)
 
+/*
 var date = new Date().getDate(); //To get the Current Date
 var month = new Date().getMonth() + 1; //To get the Current Month
 var year = new Date().getFullYear(); //To get the Current Year
-
+*/
 
 const docData = {
   "id" : id,
@@ -207,17 +244,7 @@ const docData = {
   "Phone_Number": tel,
   "Parking": parkingInfo,
   "TotalPrice": parkingprice+washingprice,
-  "Date": date,
-  "Month": month,
-  "Year": year,
-  "One": one,
-  "Tow": tow,
-  "Three": three,
-  "Four": four,
-  "Five": five,
-  "Six": six,
-  "Seven": seven,
-  "Eight": eight,
+  "StartDate" : date
 
 }
 
@@ -235,11 +262,6 @@ navigation.navigate('Profile')
 
 
 
-        },
-        (error) =>{
-          console.log(error);
-        }
-      )
 
 
 
@@ -305,66 +327,34 @@ navigation.navigate('Profile')
 
                     <Center>
                      <Heading size="xs" style={styles.serviceHeader}>Choose your reservation Hours</Heading>
-                     <View style={styles.rowTimeStyle}>
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: one ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeOne}
-                           >
-                           <Text style={styles.submitTextWhite}>06-08</Text>
+                     <View>
+                        <TouchableHighlight style={styles.dateButtom} onPress={showTimepickerStart}>
+                          <Text style={styles.submitTextDate} >{dateTextStart}</Text>
                         </TouchableHighlight>
-
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: tow ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeTow}>
-                           <Text style={styles.submitTextWhite}>08-10</Text>
+                        <TouchableHighlight style={styles.dateButtom} onPress={showTimepicker} >
+                          <Text style={styles.submitTextDate} >{dateText}</Text>
                         </TouchableHighlight>
-
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: three ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeThree}>
-                           <Text style={styles.submitTextWhite}>10-12</Text>
-                        </TouchableHighlight>
-
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: four ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeFour}>
-                           <Text style={styles.submitTextWhite}>12-14</Text>
-                        </TouchableHighlight>
-
-                     </View>   
-
-                     <View style={styles.rowTimeStyle}>
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: five ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeFive}>
-                           <Text style={styles.submitTextWhite}>14-16</Text>
-                        </TouchableHighlight>
-
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: six ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeSix}>
-                           <Text style={styles.submitTextWhite}>16-18</Text>
-                        </TouchableHighlight>
-
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: seven ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeSeven}>
-                           <Text style={styles.submitTextWhite}>18-20</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                           style={[styles.submitNormal, { backgroundColor: eight ? '#1f4a9b' : '#D4D3D3' }]}
-                           underlayColor='#E9E9E9'
-                           onPress={selectTimeEight}>
-                           <Text style={styles.submitTextWhite}>20-22</Text>
-                        </TouchableHighlight>
-                     </View>                 
+                        
+                        {show && (
+                          <DateTimePicker
+                            testID="dateTimePicker"
+                            value={date}
+                            mode={mode}
+                            is24Hour={true}
+                            onChange={onChange}
+                          />
+                        )}
+                        {showStart && (
+                          <DateTimePicker
+                            testID="dateTimePicker"
+                            value={date}
+                            mode={mode}
+                            is24Hour={true}
+                            onChange={onChangeStart}
+                          />
+                        )}
+                      </View> 
+                                   
                     </Center>
 
                     <Center>
@@ -579,10 +569,23 @@ const styles = StyleSheet.create({
   carNumberBox: {
     padding: 5,
     backgroundColor: '#000',
-    flexDirection: "row",
-    
+    flexDirection: "row",   
+  },
+  dateButtom: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 65,
+    paddingLeft: 65,
+    backgroundColor: '#04428D',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff',
+    marginBottom: 10,
+    marginTop: 5,
     
   },
+
+  
   phoneNumber: {
  
     marginTop: 7,
@@ -696,6 +699,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontSize: 17,
     fontWeight: 'bold',
+  },
+
+  submitTextDate: {
+    color: '#fff',
+    textAlign: 'center',
+    
+    fontSize: 17,
+    fontWeight: 'normal',
   },
 
 });
