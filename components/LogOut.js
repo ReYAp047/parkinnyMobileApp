@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as AuthSession from 'expo-auth-session';
 import { openAuthSessionAsync } from 'expo-web-browser';
 import { TouchableHighlight, TextInput, Image, Platform, StyleSheet, Text, View, Alert } from 'react-native';
@@ -9,6 +9,8 @@ import { Heading , Center, NativeBaseProvider } from 'native-base';
 import { LogBox } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { setStatusBarTranslucent } from 'expo-status-bar';
+import { doc, setDoc, getDoc, updateDoc  } from 'firebase/firestore';
+import { db } from '.././Core/Config'
 LogBox.ignoreAllLogs();
 
 const auth0ClientId = "uCtTuai3OyeNX17GPAM2frzmxPwxejYc";
@@ -25,6 +27,8 @@ export default function LogOut () {
   const [number,setNumber] = useState("");
   const [some, setSome] = useState(null);
   const [total, setTotal] = useState(0);
+   //storing user info
+   let [userDoc, setUserDoc] = useState(null)
   const Create = () =>{
 
     fetch('https://sandbox.paymee.tn/api/v1/payments/create', {
@@ -52,6 +56,26 @@ export default function LogOut () {
         }
       )
       setTotal(parseInt(total)+parseInt(some))
+
+      var id = global.foo;
+    
+      const myDoc = doc(db, "Client", id)
+  
+
+
+      const data = {
+        "Wallet": total,
+      };
+      
+      updateDoc(myDoc, data)
+      .then(myDoc => {
+          console.log("Money added successfully!");
+      })
+      .catch(error => {
+          console.log(error);
+      })
+
+
     }
 
     const onSomeTextChanged = (someValue) => {
@@ -59,6 +83,40 @@ export default function LogOut () {
       setNumber({ number: someValue.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '') });
       setSome(someValue)
     }
+
+    const Read = () =>{
+  
+      var id = global.foo;
+  
+      const myDoc = doc(db, "Client", id)
+  
+      getDoc(myDoc)
+      //success
+      .then((snapshot)=>{
+        if(snapshot.exists){
+          setUserDoc(snapshot.data())
+        }else{
+          alert("No old Client information found!")
+        }
+        
+     })
+     //failed
+      .catch((error)=>{
+        alert(error.message)
+      })
+    }
+
+    useEffect(() => {
+      Read()
+      
+      if(userDoc){
+
+        setTotal(userDoc.Wallet)
+  
+      }else{
+        setTotal(0)
+     }
+    },[]);
       
 
 return (

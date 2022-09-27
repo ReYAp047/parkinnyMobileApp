@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox, Button } from 'react-native';
+import { TouchableHighlight, SafeAreaView , ScrollView,  StyleSheet, View, Image, TextInput, LogBox, Button, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import * as WebBrowser from 'expo-web-browser';
@@ -78,6 +78,8 @@ export default function Reserve ({navigation}) {
     let [carFistNumber, setCarFistNumber] = useState(null)
     let [carLastNumber, setCarLastNumber] = useState(null)
     let [userNumber, setUserNumber] = useState(null)
+    let [wallet, setWallet] = useState(null)
+
     //storing user info
     let [userDoc, setUserDoc] = useState(null)
   
@@ -221,6 +223,13 @@ export default function Reserve ({navigation}) {
 
   const Create = () =>{
           
+if(wallet < (parkingprice+washingprice)){
+  Alert.alert('Failed', 'Not enough money to cash out, please recharge your wallet', [
+    { text: 'OK', onPress: () => console.log('OK Pressed') },
+  ]);
+}else{
+
+
 
 //ceating a random id for the reservation
 var id = "";
@@ -244,7 +253,8 @@ const docData = {
   "Phone_Number": tel,
   "Parking": parkingInfo,
   "TotalPrice": parkingprice+washingprice,
-  "StartDate" : date
+  "StartDate" : dateStart,
+  "Date": date,
 
 }
 
@@ -262,7 +272,7 @@ navigation.navigate('Profile')
 
 
 
-
+}
 
 
     
@@ -301,11 +311,13 @@ navigation.navigate('Profile')
       setCarFistNumber(userDoc.First_Matricule)
       setCarLastNumber(userDoc.Last_Matricule)
       setUserNumber(userDoc.Phone_Number)
+      setWallet(userDoc.Wallet)
 
     }else{
       setCarFistNumber("000")
       setCarLastNumber("9999")
       setUserNumber("xxxxxxxx")
+      setWallet(0)
    }
   });
 
@@ -331,6 +343,7 @@ navigation.navigate('Profile')
                         <TouchableHighlight style={styles.dateButtom} onPress={showTimepickerStart}>
                           <Text style={styles.submitTextDate} >{dateTextStart}</Text>
                         </TouchableHighlight>
+                        <Text>UNTIL</Text>
                         <TouchableHighlight style={styles.dateButtom} onPress={showTimepicker} >
                           <Text style={styles.submitTextDate} >{dateText}</Text>
                         </TouchableHighlight>
